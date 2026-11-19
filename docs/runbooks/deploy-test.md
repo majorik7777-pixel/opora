@@ -118,7 +118,8 @@ pnpm exec playwright test   # локально против APP_URL/e2e или �
 ## Текущий тестовый контур (19.11.2026)
 
 - **URL:** `https://opora.maksmaksmaks.site` (поддомен maksmaksmaks.site на Cloudflare, DNS only).
-- Доступ закрыт Basic Auth (логин/пароль хранятся у основателя, в git не попадают), `X-Robots-Tag: noindex`.
+- Доступ **открытый** (по решению основателя; домен нигде не публиковался) + `X-Robots-Tag: noindex`.
+- Важно: на тесте включён `AUTH_DEV_SHOW_LINK=true` — magic-link показывается в интерфейсе, поэтому любой посетитель может войти под любым email. Реальные данные вводить нельзя, только синтетика.
 - VPS: `31.76.19.135`, Ubuntu 24.04, код в `/opt/opora`, сервис `opora-web` (systemd), база — PGlite в `/opt/opora/.data/prod`, nginx + Let's Encrypt, HTTP → HTTPS 301.
 - `APP_URL=https://opora.maksmaksmaks.site`; на тесте `AUTH_DEV_SHOW_LINK=true` (magic-link показывается в интерфейсе), `LLM_PROVIDER=fake`.
 - Обновление кода: `cd /opt/opora && git pull && pnpm install --frozen-lockfile && pnpm build && systemctl restart opora-web`.
