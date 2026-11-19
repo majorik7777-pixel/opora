@@ -54,6 +54,17 @@ Next.js читает env-файлы относительно каталога п
 
 Unit/integration-тесты живут в пакетах (`packages/shared|db|core|llm`), e2e — в [`tests/e2e`](tests/e2e). Playwright-конфиг поднимает сервер сам и гоняет два проекта: desktop и мобильный `360 px`.
 
+## Дизайн
+
+Текущий визуальный язык Phase 0–1 признан «нейрослопным» и вынесен на редизайн:
+[`docs/design/`](docs/design/README.md) — диагноз, три референса (Two Chairs, Clue, On Being),
+направление v2 (токены, типографика Literata/Onest, редакционная сетка, фото/движение), план задач
+`tasks/T-201…T-205`. Для будущих сессий установлен проектный скилл
+[`.agents/skills/design-opora/SKILL.md`](.agents/skills/design-opora/SKILL.md).
+
+Юридические факты перепроверены по открытым источникам:
+[`docs/reports/legal-check-2026-11-19.md`](docs/reports/legal-check-2026-11-19.md) (D-032).
+
 ## Переменные окружения
 
 Канонический файл — **корневой** `.env` (симлинк `apps/web/.env` создаёт `setup:dev`); переменные можно также передавать окружением процесса. Полный список с комментариями — [`.env.example`](.env.example); ключевые:

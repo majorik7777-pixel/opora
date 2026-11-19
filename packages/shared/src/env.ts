@@ -16,8 +16,20 @@ const envSchema = z.object({
 
   EMAIL_TRANSPORT: z.enum(["console", "smtp"]).default("console"),
   LLM_PROVIDER: z
-    .enum(["fake", "foreign", "yandex", "gigachat", "cloudru"])
+    .enum([
+      "fake",
+      "openai-compatible",
+      "openrouter",
+      "openai",
+      "foreign",
+      "yandex",
+      "gigachat",
+      "cloudru",
+    ])
     .default("fake"),
+  LLM_API_KEY: z.string().optional(),
+  LLM_BASE_URL: z.string().optional(),
+  LLM_MODEL: z.string().optional(),
 });
 
 export interface AppEnv {
@@ -29,7 +41,18 @@ export interface AppEnv {
   DATABASE_URL: string | undefined;
   PGLITE_DATA_DIR: string;
   EMAIL_TRANSPORT: "console" | "smtp";
-  LLM_PROVIDER: "fake" | "foreign" | "yandex" | "gigachat" | "cloudru";
+  LLM_PROVIDER:
+    | "fake"
+    | "openai-compatible"
+    | "openrouter"
+    | "openai"
+    | "foreign"
+    | "yandex"
+    | "gigachat"
+    | "cloudru";
+  LLM_API_KEY: string | undefined;
+  LLM_BASE_URL: string | undefined;
+  LLM_MODEL: string | undefined;
   /** Применять миграции при старте: по умолчанию везде, кроме production. */
   autoMigrate: boolean;
   /** Показывать dev-ссылку magic link прямо в интерфейсе (только не в production). */
@@ -62,6 +85,9 @@ export function getEnv(): AppEnv {
     PGLITE_DATA_DIR: data.PGLITE_DATA_DIR,
     EMAIL_TRANSPORT: data.EMAIL_TRANSPORT,
     LLM_PROVIDER: data.LLM_PROVIDER,
+    LLM_API_KEY: data.LLM_API_KEY,
+    LLM_BASE_URL: data.LLM_BASE_URL,
+    LLM_MODEL: data.LLM_MODEL,
     autoMigrate: data.AUTO_MIGRATE
       ? data.AUTO_MIGRATE === "true"
       : !isProduction,

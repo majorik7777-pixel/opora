@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getOnboardingProfile } from "@opora/core";
 import {
+  CRISIS_CONTACTS,
+  CRISIS_CONTACTS_VERIFIED_AT,
   FREE_MESSAGES_PER_DAY,
   PROGRAM_LENGTH_DAYS,
   PROGRAM_PRICE_RUB,
@@ -143,14 +145,32 @@ export default async function AppHomePage() {
         </Card>
       </section>
 
-      <Card className="mt-9 space-y-2 bg-sage-soft/50">
+      <Card className="mt-9 space-y-3">
         <h2 className="text-lg font-medium text-ink">
           Если сейчас очень тяжело
         </h2>
         <p className="text-sm leading-6 text-ink/80">
-          Не оставайся с этим одна. Позвони 112 — это бесплатно и
-          круглосуточно. Приложение рядом, но оно не заменяет экстренную
-          помощь.
+          Не оставайся с этим одна. Приложение рядом, но оно не заменяет
+          экстренную помощь.
+        </p>
+        <ul className="space-y-2">
+          {CRISIS_CONTACTS.map((contact) => (
+            <li key={contact.tel} className="text-sm leading-6">
+              <a
+                href={`tel:${contact.tel}`}
+                className="font-medium text-accent-deep underline underline-offset-2"
+              >
+                {contact.phone}
+              </a>{" "}
+              <span className="text-ink/80">
+                — {contact.label}, {contact.note.toLowerCase()}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p className="text-xs text-muted">
+          Номера проверены {CRISIS_CONTACTS_VERIFIED_AT}; перепроверяйте при
+          запуске.
         </p>
       </Card>
 

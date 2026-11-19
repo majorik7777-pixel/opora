@@ -13,7 +13,12 @@ export const dynamic = "force-dynamic";
 
 /** Каркас чата: подтверждает, что адаптер LLM работает, без отправки сообщений. */
 async function getIntroMessage(): Promise<string> {
-  const provider = createLlmProvider(getEnv().LLM_PROVIDER);
+  const env = getEnv();
+  const provider = createLlmProvider(env.LLM_PROVIDER, {
+    apiKey: env.LLM_API_KEY,
+    baseUrl: env.LLM_BASE_URL,
+    model: env.LLM_MODEL,
+  });
   const chunks: string[] = [];
   for await (const chunk of provider.chat({
     messages: [
