@@ -1,10 +1,6 @@
 import { existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
-import { PGlite } from "@electric-sql/pglite";
-import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
-import { drizzle as drizzlePglite } from "drizzle-orm/pglite";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
 import { getEnv } from "@opora/shared/server";
 import * as schema from "./schema";
 
@@ -29,7 +25,7 @@ export interface CreateDbOptions {
 
 interface DbGlobalState {
   __oporaDbHandle?: Promise<DbHandle>;
-  __oporaDbMigrated?: boolean;
+  __oporaDbReady?: Promise<void>;
 }
 
 const globalState = globalThis as typeof globalThis & DbGlobalState;
@@ -58,7 +54,11 @@ export function resolvePgliteDataDir(configured: string): string {
   return path.resolve(findWorkspaceRoot(), configured);
 }
 
-/** Создаёт новое подключение к БД (без глобального состояния — для тестов и скриптов). */
+/**
+ * Создаёт новое подключение к БД (без глобального состояния — для тестов и скриптов).
+ * Драйверы импортируются динамически: pg не попадает в бандл, если используется
+ * PGlite, и наоборот (важно для dev-сборки Next).
+ */
 export async function createDbHandle(
   options: CreateDbOptions = {},
 ): Promise<DbHandle> {
@@ -66,7 +66,11 @@ export async function createDbHandle(
   let databaseUrl = options.databaseUrl;
   let pgliteDataDir = options.pgliteDataDir;
 
-  if (!driver || (driver === "pglite" && !pgliteDataDir) || (driver === "postgres" && !databaseUrl)) {
+  if (
+    !driver ||
+    (driver === "pglite" && !pgliteDataDir) ||
+    (driver === "postgres" && !databaseUrl)
+  ) {
     const env = getEnv();
     driver ??= env.DATABASE_DRIVER;
     databaseUrl ??= env.DATABASE_URL;
@@ -81,12 +85,18 @@ export async function createDbHandle(
         "DATABASE_DRIVER=postgres, но DATABASE_URL не задан. Укажи строку подключения к PostgreSQL.",
       );
     }
+
+    const [{ Pool }, { drizzle }] = await Promise.all([
+      import("pg"),
+      import("drizzle-orm/node-postgres"),
+    ]);
     const pool = new Pool({
       connectionString: databaseUrl,
       max: 10,
       idleTimeoutMillis: 30_000,
     });
-    const db = drizzlePg(pool, { schema }) as unknown as Db;
+    const db = drizzle(pool, { schema }) as unknown as Db;
+
     return {
       db,
       driver: resolvedDriver,
@@ -102,10 +112,15 @@ export async function createDbHandle(
   if (resolvedDir !== ":memory:") {
     mkdirSync(path.dirname(resolvedDir), { recursive: true });
   }
+
+  const [{ PGlite }, { drizzle }] = await Promise.all([
+    import("@electric-sql/pglite"),
+    import("drizzle-orm/pglite"),
+  ]);
   const client =
     resolvedDir === ":memory:" ? new PGlite() : new PGlite(resolvedDir);
   await client.waitReady;
-  const db = drizzlePglite(client, { schema }) as unknown as Db;
+  const db = drizzle(client, { schema }) as unknown as Db;
 
   return {
     db,
@@ -122,31 +137,45 @@ export async function getDbHandle(): Promise<DbHandle> {
   return globalState.__oporaDbHandle;
 }
 
+/**
+ * Готовит БД к работе (миграции) один раз на процесс.
+ * Вызывается лениво при первом обращении к БД, если AUTO_MIGRATE=true,
+ * и явно из тестов/скриптов через ensureDatabaseReady.
+ */
+async function ensureMigrated(handle: DbHandle): Promise<void> {
+  if (!getEnv().autoMigrate) return;
+
+  globalState.__oporaDbReady ??= (async () => {
+    const { runMigrations } = await import("./migrations");
+    await runMigrations(handle.db);
+    console.info("[opora:db] миграции применены");
+  })();
+  await globalState.__oporaDbReady;
+}
+
 export async function getDb(): Promise<Db> {
   const handle = await getDbHandle();
+  await ensureMigrated(handle);
   return handle.db;
 }
 
 export async function closeDb(): Promise<void> {
   const pending = globalState.__oporaDbHandle;
   globalState.__oporaDbHandle = undefined;
-  globalState.__oporaDbMigrated = false;
+  globalState.__oporaDbReady = undefined;
   if (pending) {
     const handle = await pending;
     await handle.close();
   }
 }
 
-/**
- * Готовит БД к работе: создаёт подключение и применяет миграции.
- * Вызывается из instrumentation.ts при AUTO_MIGRATE=true и из тестов.
- */
+/** Явно применяет миграции (тесты, healthcheck после сбоя, ручной прогрев). */
 export async function ensureDatabaseReady(): Promise<Db> {
   const handle = await getDbHandle();
-  if (!globalState.__oporaDbMigrated) {
+  globalState.__oporaDbReady ??= (async () => {
     const { runMigrations } = await import("./migrations");
     await runMigrations(handle.db);
-    globalState.__oporaDbMigrated = true;
-  }
+  })();
+  await globalState.__oporaDbReady;
   return handle.db;
 }

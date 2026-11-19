@@ -135,8 +135,8 @@ pnpm db:migrate       # применить миграции к DATABASE_URL
 
 Особенности окружения:
 
-- **Env — только из корня.** `apps/web/next.config.ts` вызывает `loadEnvConfig(repoRoot)`; отдельный `apps/web/.env` не нужен и не создаётся.
-- **База в dev — PGlite:** файлы в `.data/dev`, миграции применяются при старте при `AUTO_MIGRATE=true`. Docker/PostgreSQL локально не нужны (ADR-0002). Переключение на PostgreSQL: `DATABASE_DRIVER=postgres`, `DATABASE_URL=...`, `AUTO_MIGRATE=false`, `pnpm db:migrate`.
+- **Env — только из корня.** Канонический `.env` — в корне; `pnpm setup:dev` создаёт симлинк `apps/web/.env → ../../.env`, потому что Next.js читает env-файлы относительно каталога приложения. `apps/web/next.config.ts` дополнительно вызывает `loadEnvConfig(repoRoot)`. Отдельный настоящий `apps/web/.env` не создаётся.
+- **База в dev — PGlite:** файлы в `.data/dev`, миграции применяются лениво при первом обращении к БД при `AUTO_MIGRATE=true`. Docker/PostgreSQL локально не нужны (ADR-0002). Переключение на PostgreSQL: `DATABASE_DRIVER=postgres`, `DATABASE_URL=...`, `AUTO_MIGRATE=false`, `pnpm db:migrate`.
 - **E2E** использует отдельную PGlite-БД `.data/e2e`, production-сборку и порт `3100`; локально Playwright запускает установленный Google Chrome, в CI — chromium из `playwright install`.
 - **Не запускай `pnpm install` без необходимости** и не коммить изменения `pnpm-lock.yaml`, если задача их не требует. Не запускай `pnpm dev`/`pnpm build`, пока другой агент пишет код в тех же пакетах, — сначала согласуй.
 - **CI** (`.github/workflows/ci.yml`): install --frozen-lockfile → lint → typecheck → test → build → playwright install chromium → e2e.

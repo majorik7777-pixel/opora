@@ -25,6 +25,8 @@ pnpm dev            # Next.js на http://localhost:3000
 
 `pnpm setup:dev` безопасно запускать повторно: если `.env` уже есть, скрипт его не трогает. Шаблон всех переменных — [`.env.example`](.env.example).
 
+Next.js читает env-файлы относительно каталога приложения, поэтому `setup:dev` дополнительно создаёт симлинк `apps/web/.env → ../../.env`. Альтернатива на сервере — передавать переменные окружением процесса (systemd/docker), без `.env`.
+
 ### Как проверить основные сценарии в dev
 
 - `/` — лендинг.
@@ -54,7 +56,7 @@ Unit/integration-тесты живут в пакетах (`packages/shared|db|co
 
 ## Переменные окружения
 
-Все переменные читаются из **корневого** `.env` (или из окружения процесса). Полный список с комментариями — [`.env.example`](.env.example); ключевые:
+Канонический файл — **корневой** `.env` (симлинк `apps/web/.env` создаёт `setup:dev`); переменные можно также передавать окружением процесса. Полный список с комментариями — [`.env.example`](.env.example); ключевые:
 
 - `APP_URL` — базовый URL приложения.
 - `DATABASE_DRIVER=pglite|postgres`, `PGLITE_DATA_DIR`, `DATABASE_URL`, `AUTO_MIGRATE` — база данных. Dev по умолчанию: `pglite` + `.data/dev` + авто-миграции.
@@ -88,7 +90,7 @@ opora/
 │   ├── prd.md            # PRD Phase 0–1
 │   └── DEFINITION_OF_DONE.md
 ├── tasks/                # задачи для AI-агентов (формат и статусы — tasks/README.md)
-├── scripts/setup-dev.mjs # генерация локального .env
+├── scripts/setup-dev.mjs # генерация локального .env + симлинк apps/web/.env
 ├── .env.example
 ├── AGENTS.md             # главный документ для любого AI-агента
 └── README.md
