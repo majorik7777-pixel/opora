@@ -12,7 +12,7 @@ test.describe("Смоук и защита", () => {
   test("лендинг содержит оффер, цену и дисклеймер", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "вернуть опору",
+      /перестать прокручивать/i,
     );
     await expect(page.getByText("990 ₽").first()).toBeVisible();
     await expect(

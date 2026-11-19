@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* global window, document, setTimeout */
 /**
  * Снимки экранов для приёмки/витрины (не для CI).
  *
@@ -26,6 +27,18 @@ fs.mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 
+async function primeLazyImages(page) {
+  await page.evaluate(async () => {
+    const step = window.innerHeight * 0.8;
+    for (let y = 0; y < document.body.scrollHeight; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 120));
+    }
+    window.scrollTo(0, 0);
+  });
+  await page.waitForTimeout(800);
+}
+
 const desktop = await browser.newContext({
   viewport: { width: 1440, height: 900 },
   deviceScaleFactor: 2,
@@ -34,6 +47,7 @@ const desktop = await browser.newContext({
 const page = await desktop.newPage();
 
 await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
+await primeLazyImages(page);
 await page.screenshot({ path: path.join(OUT, "01-landing-desktop.png") });
 await page.screenshot({
   path: path.join(OUT, "01b-landing-desktop-full.png"),
@@ -49,6 +63,7 @@ const mobile = await browser.newContext({
 });
 const mobilePage = await mobile.newPage();
 await mobilePage.goto(`${BASE}/`, { waitUntil: "networkidle" });
+await primeLazyImages(mobilePage);
 await mobilePage.screenshot({
   path: path.join(OUT, "02-landing-mobile-360.png"),
 });

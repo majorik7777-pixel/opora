@@ -3,15 +3,16 @@ import { ROUTES } from "@opora/shared";
 import { buttonStyles, Container, Logo } from "@opora/ui";
 
 const nav = [
-  { href: "#seven-days", label: "Как это работает" },
+  { href: "#how", label: "Как это работает" },
+  { href: "#look", label: "Как выглядит" },
   { href: "#inside", label: "Что внутри" },
   { href: "#pricing", label: "Цена" },
-  { href: "#faq", label: "FAQ" },
+  { href: "#faq", label: "Вопросы" },
 ] as const;
 
 export function LandingHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-bg/95 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-line bg-paper/95 backdrop-blur">
       <Container className="flex h-16 items-center justify-between gap-4">
         <Link href={ROUTES.landing} aria-label="Опора — на главную">
           <Logo />
@@ -33,7 +34,7 @@ export function LandingHeader() {
           href={ROUTES.onboarding}
           className={buttonStyles({ variant: "signal", size: "sm" })}
         >
-          Начать бесплатно
+          Пройти первый день
         </Link>
       </Container>
     </header>

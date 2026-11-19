@@ -63,6 +63,10 @@ paper/ink/moss/wine, гротеск Onest ведёт, Literata — только 
 фото), задачи `tasks/T-201…T-205` (T-201/T-202 — review). Для будущих сессий установлен проектный
 скилл [`.agents/skills/design-opora/SKILL.md`](.agents/skills/design-opora/SKILL.md).
 
+Стратегия SEO-трафика и объединения программ: [`docs/planning/14-seo-platform.md`](docs/planning/14-seo-platform.md)
+(D-035, ADR-0005) — один бренд/сайт/приложение, много 7-дневных программ, кластеры статей,
+URL `/programs/[slug]` и `/articles/[cluster]/[slug]`.
+
 Юридические факты перепроверены по открытым источникам:
 [`docs/reports/legal-check-2026-11-19.md`](docs/reports/legal-check-2026-11-19.md) (D-032).
 

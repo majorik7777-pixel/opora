@@ -1,68 +1,71 @@
 import { Container } from "@opora/ui";
 
-const steps = [
-  {
-    period: "01",
-    days: "День 1–2",
-    title: "Поймёшь, что с тобой происходит",
-    text: "Почему так больно и почему «взять себя в руки» сейчас не работает.",
-  },
-  {
-    period: "02",
-    days: "День 3–5",
-    title: "Разберёшь мысли, которые добивают",
-    text: "Вернёшься к телу, сну и рутине — маленькими шагами, без насилия над собой.",
-  },
-  {
-    period: "03",
-    days: "День 6–7",
-    title: "Соберёшь личный план",
-    text: "Что делать дальше и как действовать, когда накроет снова.",
-  },
-] as const;
+import type { Program } from "@/content/programs/types";
 
-export function SevenDaysSection() {
+import { Photo } from "./photo";
+
+export function SevenDaysSection({ program }: { program: Program }) {
   return (
-    <section
-      id="seven-days"
-      aria-labelledby="seven-days-title"
-      className="bg-moss py-16 text-paper sm:py-20 lg:py-24"
-    >
-      <Container>
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+    <section id="how" aria-labelledby="how-title" className="bg-moss text-paper">
+      <Container className="grid gap-0 py-0 lg:grid-cols-12">
+        <div className="py-14 sm:py-16 lg:col-span-6 lg:py-20">
           <h2
-            id="seven-days-title"
-            className="text-[32px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-[44px] lg:col-span-7 lg:text-[56px]"
+            id="how-title"
+            className="text-[30px] leading-[1.05] tracking-[-0.03em] sm:text-[40px]"
           >
             Не «забудь его». Вернуть себя.
           </h2>
-          <p className="max-w-md text-lg leading-8 text-moss-soft lg:col-span-5">
-            Семь дней — это не марафон. Это один урок и одна практика в день,
-            чтобы снова почувствовать почву под ногами.
+          <p className="mt-5 max-w-md text-lg leading-8 text-moss-soft">
+            Семь дней — это не марафон. Один урок и одна практика в день, чтобы
+            снова почувствовать почву под ногами.
           </p>
+
+          <ol className="mt-9 flex flex-wrap gap-2" aria-label="Семь дней программы">
+            {program.dayTitles.map((title, index) => (
+              <li key={title} className="group relative">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/30 text-sm tabular-nums text-moss-soft">
+                  {index + 1}
+                </span>
+                <span className="sr-only">{title}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-3 text-sm text-moss-soft">
+            7 дней · урок → практика → дневник → поддержка
+          </p>
+
+          <ol className="mt-8 border-b border-paper/20">
+            {program.sevenDays.map((step) => (
+              <li
+                key={step.period}
+                className="grid gap-2 border-t border-paper/20 py-5 sm:grid-cols-12 sm:gap-5"
+              >
+                <p className="event-serif text-3xl leading-none text-moss-soft sm:col-span-2">
+                  {step.period}
+                </p>
+                <div className="sm:col-span-3">
+                  <p className="text-sm text-moss-soft">{step.days}</p>
+                  <h3 className="mt-1 text-lg font-medium leading-snug">{step.title}</h3>
+                </div>
+                <p className="text-sm leading-6 text-moss-soft sm:col-span-7">
+                  {step.text}
+                </p>
+              </li>
+            ))}
+          </ol>
         </div>
 
-        <ol className="mt-10 border-b border-paper/20 sm:mt-14">
-          {steps.map((step) => (
-            <li
-              key={step.period}
-              className="grid gap-4 border-t border-paper/20 py-7 sm:grid-cols-12 sm:gap-6 sm:py-9"
-            >
-              <p className="event-serif text-4xl leading-none text-moss-soft sm:col-span-2 sm:text-5xl">
-                {step.period}
-              </p>
-              <div className="sm:col-span-3">
-                <p className="text-sm text-moss-soft">{step.days}</p>
-                <h3 className="mt-1 text-xl font-medium leading-snug">
-                  {step.title}
-                </h3>
-              </div>
-              <p className="max-w-md text-base leading-7 text-moss-soft sm:col-span-7">
-                {step.text}
-              </p>
-            </li>
-          ))}
-        </ol>
+        <div className="relative min-h-[280px] lg:col-span-6 lg:min-h-full">
+          <Photo
+            name="seven-days"
+            widths={[800, 1600]}
+            width={1600}
+            height={1067}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            alt="Женщина идёт под дождём по осеннему двору"
+            className="absolute inset-0 h-full w-full"
+          />
+        </div>
       </Container>
     </section>
   );

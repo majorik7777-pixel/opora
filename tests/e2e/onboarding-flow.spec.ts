@@ -18,11 +18,11 @@ test.describe("Сквозной путь", () => {
     // 1. Лендинг
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "вернуть опору",
+      /перестать прокручивать/i,
     );
 
     await page
-      .getByRole("link", { name: "Начать бесплатно" })
+      .getByRole("link", { name: "Пройти первый день бесплатно" })
       .first()
       .click();
     await expect(page).toHaveURL(/\/onboarding$/);
