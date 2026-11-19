@@ -4,9 +4,9 @@
 
 ## 1. Домен
 
-Рекомендация: **`opora-psihologii.ru`** (свободен на 19.11.2026) как основной. Защитный:
-**`опора.рф`** (свободен) с 301 на основной. Регистратор: REG.RU / Timeweb / Beget (для .ru нужен
-паспорт, домен на физлицо). Купить сразу на 2 года, включить автопродление.
+Куплен: **`opora-psihologii.ru`** (19.11.2026). `опора.рф` занят (зарегистрирован с 2010, продлён
+до 2027) — второй домен не нужен; при желании можно взять `опора-психология.рф` как защитный, но
+это необязательно. Регистратор: REG.RU / Timeweb / Beget (для .ru нужен паспорт, домен на физлицо).
 
 DNS (пример):
 ```
@@ -27,9 +27,11 @@ git push -u origin main
 - CI уже есть: `.github/workflows/ci.yml` (lint → typecheck → test → build → e2e chromium).
 - После пуша проверить Actions; e2e в CI использует chromium, локально — Chrome.
 
-## 3. Тестовый деплой: вариант A (рекомендуется для РФ)
+## 3. Тестовый деплой: вариант A (VPS; текущий VPS в Германии — только тест)
 
-VPS в РФ (Timeweb/Beget/Selectel, 2 vCPU / 2–4 ГБ), Ubuntu 24.04, Docker или Node 22 + pnpm.
+Текущий VPS в Германии годится **только для закрытого теста** (синтетика, пароль, noindex): это
+не РФ-хостинг, реальные ПДн там обрабатывать нельзя (152-ФЗ, D-032). Перед публичным запуском —
+переезд на VPS в РФ (Timeweb/Beget/Selectel), 2 vCPU / 2–4 ГБ, Ubuntu 24.04, Node 22 + pnpm.
 
 ```bash
 # на сервере
@@ -56,6 +58,35 @@ opora-psihologii.ru {
 
 База: PostgreSQL 16 (`infra/docker-compose.yml`) или PGlite для быстрого теста (PGlite на одном
 инстансе, данные в `.data/`; для теста ок, для продакшена — Postgres).
+
+### systemd (если без Docker)
+
+`/etc/systemd/system/opora-web.service`:
+```
+[Unit]
+Description=Opora web
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/opora
+EnvironmentFile=/opt/opora/.env
+ExecStart=/usr/bin/pnpm --filter @opora/web start
+Restart=always
+User=opora
+
+[Install]
+WantedBy=multi-user.target
+```
+`APP_URL=https://opora-psihologii.ru`, `AUTH_DEV_SHOW_LINK=true` (только тест), `EMAIL_TRANSPORT=console`,
+`AUTO_MIGRATE=true`, `DATABASE_DRIVER=pglite` (или `postgres` + `DATABASE_URL`).
+
+### DNS
+
+```
+@    A       <IP VPS>
+www  CNAME   opora-psihologii.ru.
+```
+Caddy сам выпустит TLS после того, как DNS указывает на VPS.
 
 ## 4. Вариант B: Vercel (быстро, только синтетика)
 
