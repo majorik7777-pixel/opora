@@ -1,0 +1,27 @@
+# зависимости и кэши
+node_modules/
+.pnpm-store/
+.pnpm-cache/
+.pnpm-state/
+
+# сборка Next.js
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+
+# playwright
+playwright-report/
+test-results/
+
+# локальные данные (PGlite) и env
+.data/
+.env
+.env.local
+.env.*.local
+
+# системное
+.DS_Store
+*.log
+Thumbs.db

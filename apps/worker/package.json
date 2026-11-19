@@ -1,0 +1,22 @@
+{
+  "name": "@opora/worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "BullMQ-воркер: напоминания, отчёты, сверка платежей. Каркас Phase 0–1.",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@opora/core": "workspace:*",
+    "@opora/db": "workspace:*",
+    "@opora/shared": "workspace:*",
+    "bullmq": "6.7.8"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  }
+}

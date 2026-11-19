@@ -1,0 +1,67 @@
+# Docker Compose для «Опоры»: PostgreSQL 16 и Redis 7.
+#
+# Важно:
+#   - Приложение запускается через pnpm (`pnpm build && pnpm start` или systemd),
+#     а не в контейнере. Dockerfile веб-приложения появится позже; этот файл —
+#     инфраструктура для production-подобного окружения и деплоя.
+#   - В dev-режиме PostgreSQL и Redis НЕ нужны: локальная БД — PGlite
+#     (docs/adr/0002-dev-database-pglite.md). Этот compose нужен, чтобы
+#     проверить production-путь (DATABASE_DRIVER=postgres) и поднять Redis
+#     для будущего BullMQ-воркера.
+#   - Значения переменных берутся из корневого .env (compose читает его для
+#     подстановки) или из окружения. Приложение ходит в БД по DATABASE_URL,
+#     а не по POSTGRES_* — не путать.
+#   - Данные — в named volumes; перед обновлением PostgreSQL делать бэкап
+#     (docs/runbooks/deploy-backup.md).
+#
+# Запуск:
+#   docker compose -f infra/docker-compose.yml up -d
+#   docker compose -f infra/docker-compose.yml ps
+#   docker compose -f infra/docker-compose.yml logs -f postgres
+#
+# Пример DATABASE_URL для .env при таком запуске:
+#   postgres://opora:<пароль>@localhost:5432/opora
+
+name: opora
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-opora}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-opora-local-dev-only}
+      POSTGRES_DB: ${POSTGRES_DB:-opora}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+
+volumes:
+  postgres-data:
+    name: opora-postgres-data
+  redis-data:
+    name: opora-redis-data

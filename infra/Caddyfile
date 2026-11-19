@@ -1,0 +1,48 @@
+# Caddyfile — reverse proxy для production «Опоры».
+#
+# Использование (production, VPS в РФ):
+#   1. Установить Caddy на сервер (пакет дистрибутива или официальный репозиторий).
+#   2. Задать DOMAIN и, при необходимости, UPSTREAM в окружении Caddy
+#      (/etc/caddy/caddy.env для systemd или переменные окружения контейнера).
+#   3. Скопировать файл в /etc/caddy/Caddyfile и выполнить:
+#        sudo caddy validate --config /etc/caddy/Caddyfile
+#        sudo systemctl reload caddy
+#   4. Открыть порты 80 и 443; Caddy сам получит TLS-сертификат (ACME),
+#      если DNS-запись домена указывает на сервер.
+#
+# Важно:
+#   - Файл для production. Локальная разработка и e2e работают напрямую на
+#     localhost:3000 / 127.0.0.1:3100 (pnpm dev / pnpm test:e2e), Caddy не нужен.
+#   - Приложение слушает localhost:3000 (или web:3000, если когда-нибудь
+#     появится Dockerfile). Конкретный upstream задаётся переменной UPSTREAM.
+#   - Никаких реальных доменов/IP в репозитории нет: DOMAIN задаётся на сервере.
+#   - HSTS включать только когда домен уже работает по https на постоянной основе.
+
+{$DOMAIN} {
+	# Сжатие: zstd для современных клиентов, gzip — для остальных.
+	encode zstd gzip
+
+	# Security-заголовки. Часть дублирует next.config.ts (defense in depth);
+	# на уровне прокси они действуют и на статические файлы.
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), geolocation=(), microphone=(self)"
+		-Server
+	}
+
+	# Healthcheck и метрики не кэшируем.
+	@health path /api/health
+	header @health Cache-Control "no-store"
+
+	# Приложение (Next.js). UPSTREAM по умолчанию — локальный процесс.
+	# В Docker-сети заменить на web:3000.
+	reverse_proxy {$UPSTREAM:localhost:3000}
+}
+
+# Альтернатива для www-домена: раскомментировать и задать DOMAIN и WWW_DOMAIN.
+# {$WWW_DOMAIN} {
+# 	redir https://{$DOMAIN}{uri} permanent
+# }
