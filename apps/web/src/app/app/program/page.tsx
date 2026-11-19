@@ -54,10 +54,10 @@ const DAYS: readonly ProgramDayPreview[] = [
 export default function ProgramPage() {
   return (
     <Container size="narrow" className="py-8 sm:py-10">
-      <p className="text-sm font-medium uppercase tracking-wide text-muted">
+      <p className="text-sm text-muted">
         Программа · каркас Phase 0–1
       </p>
-      <h1 className="mt-1 font-display text-3xl leading-tight text-ink sm:text-4xl">
+      <h1 className="mt-1 font-sans text-3xl leading-tight text-ink sm:text-4xl">
         Пережить расставание
       </h1>
       <p className="mt-3 text-base leading-7 text-muted">

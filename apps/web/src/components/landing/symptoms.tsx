@@ -1,56 +1,59 @@
-import { Card, Container } from "@opora/ui";
+import { Container } from "@opora/ui";
 
-/** Боли из 11-copy.md §1.2 — дословно, без усиления и без «продающих» надстроек. */
 const pains = [
-  "Просыпаешься и сразу вспоминаешь — и день уже испорчен.",
-  "Не можешь перестать проверять сообщения и соцсети.",
-  "Всё напоминает о нём: музыка, улица, чашка.",
-  "Хочется поговорить — но не с кем и не хочется объяснять.",
-  "Кажется, что ты недостаточно хороша и всё испортила.",
+  {
+    label: "утро",
+    text: "Просыпаешься и сразу вспоминаешь — и день уже испорчен.",
+  },
+  {
+    label: "телефон",
+    text: "Не можешь перестать проверять сообщения и соцсети.",
+  },
+  {
+    label: "память",
+    text: "Всё напоминает о нём: музыка, улица, чашка.",
+  },
+  {
+    label: "одиночество",
+    text: "Хочется поговорить — но не с кем и не хочется объяснять.",
+  },
+  {
+    label: "вина",
+    text: "Кажется, что ты недостаточно хороша и всё испортила.",
+  },
 ] as const;
 
-/**
- * Блок «Если сейчас так»: пять карточек вместо стены текста
- * и спокойная подпись-опора. Никакой жалости и «розовых» акцентов.
- */
 export function SymptomsSection() {
   return (
-    <section
-      id="symptoms"
-      aria-labelledby="symptoms-title"
-      className="scroll-mt-20 py-14 sm:py-20"
-    >
+    <section id="symptoms" aria-labelledby="symptoms-title" className="py-16 sm:py-20 lg:py-24">
       <Container>
-        <h2
-          id="symptoms-title"
-          className="max-w-2xl font-display text-[1.75rem] leading-[1.25] text-ink sm:text-4xl sm:leading-[1.2]"
-        >
-          Если сейчас так:
-        </h2>
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+          <h2
+            id="symptoms-title"
+            className="text-[32px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-[44px] lg:col-span-7 lg:text-[56px]"
+          >
+            Если сейчас так:
+          </h2>
+          <p className="max-w-md text-lg leading-8 text-muted lg:col-span-5">
+            Это не слабость. Это больно — и с этим можно работать.
+          </p>
+        </div>
 
-        <ul className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
+        <ul className="mt-10 border-b border-line sm:mt-14">
           {pains.map((pain) => (
-            <li key={pain} className="h-full">
-              <Card className="h-full">
-                <span
-                  aria-hidden="true"
-                  className="block h-px w-8 bg-sage"
-                />
-                <p className="mt-4 text-base leading-7 text-ink">{pain}</p>
-              </Card>
+            <li
+              key={pain.label}
+              className="grid gap-2 border-t border-line py-5 sm:grid-cols-12 sm:items-baseline sm:gap-6 sm:py-6"
+            >
+              <p className="text-xl leading-snug tracking-[-0.01em] sm:col-span-8 sm:text-2xl">
+                {pain.text}
+              </p>
+              <p className="text-sm text-muted sm:col-span-4 sm:text-right">
+                {pain.label}
+              </p>
             </li>
           ))}
         </ul>
-
-        <p className="mt-8 flex items-start gap-3 rounded-card bg-sage-soft px-5 py-4 text-sage-deep sm:mt-10 sm:items-center sm:px-6 sm:py-5">
-          <span
-            aria-hidden="true"
-            className="mt-2.5 size-1.5 shrink-0 rounded-full bg-sage-deep sm:mt-0"
-          />
-          <span className="font-display text-lg leading-7 sm:text-xl sm:leading-8">
-            Это не слабость. Это больно — и с этим можно работать.
-          </span>
-        </p>
       </Container>
     </section>
   );

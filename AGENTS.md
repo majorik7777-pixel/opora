@@ -52,7 +52,7 @@
 | Очереди | BullMQ (каркас) | `bullmq 6.7.8` в `apps/worker`, Redis — позже |
 | Auth | magic link своими силами | без внешних auth-сервисов — ADR-0003 |
 | Платежи | ЮKassa | позже, T-104; сейчас в коде отсутствует |
-| LLM | адаптер провайдеров | Phase 0–1: `fake`; провайдер РФ — T-101 |
+| LLM | адаптер провайдеров | `fake` (dev/test), тестовый `openai-compatible` (OpenCode Go, D-031); production-контур РФ — T-101 |
 | Тесты | Vitest + Playwright | Vitest `4.1.12`, Playwright `1.65.1`, axe `4.14.0` |
 | CI | GitHub Actions | lint → typecheck → test → build → e2e (chromium) |
 
@@ -66,7 +66,7 @@ opora/
 │   ├── web/                 # Next.js App Router: страницы, server actions, route handlers
 │   │   ├── src/app/         # маршруты (лендинг, онбординг, auth, /app, legal, /api/health)
 │   │   ├── next.config.ts   # env из корня, transpilePackages, security headers
-│   │   └── public/fonts/    # Golos Text и Lora (self-hosted woff2)
+│   │   └── public/fonts/    # Onest и Literata (self-hosted woff2, кириллица)
 │   └── worker/              # каркас BullMQ-воркера (напоминания/отчёты — позже)
 ├── packages/
 │   ├── core/                # домены: auth, onboarding, chat, diary, programs, billing, safety
@@ -161,7 +161,7 @@ pnpm db:migrate       # применить миграции к DATABASE_URL
 - Никакого военного/утратного контекста в маркетинге и текстах (D-006). Кризисные темы — протокол и контакты помощи, не «продукт».
 - Дисклеймер о том, что сервис не медицинская услуга, и 18+ — на лендинге, в онбординге и в юридических страницах.
 - **Мобайл-фёрст: проектируй с 360 px.** Один экран — одно действие; тач-зоны ≥ 44 px; контраст AA; видимый фокус; `prefers-reduced-motion`; масштабирование текста до 200% без поломок.
-- Дизайн — по `10-design.md`: тёплая бумага, терракота/шалфей, Golos Text + Lora, радиусы и тени из токенов. Без стоковых фото людей, розово-лиловых градиентов, маскотов, тёмных паттернов.
+- Дизайн — по `docs/design/direction-v2.md` (D-033): прохладная бумага `#F1F1EA`, ink, мох, вино; Onest ведёт, Literata — «событие»; редакционная сетка, линии вместо карточек, без капс-бровей, `→`, стоковых фото людей и AI-генерации лиц. Перед UI-работой — скилл `.agents/skills/design-opora/SKILL.md`.
 - У каждого экрана и компонента — состояния: default, hover, focus, disabled, loading, error, empty. Ошибки — текстом, не только цветом.
 
 ## 10. Как работать задачами
@@ -203,8 +203,8 @@ pnpm db:migrate       # применить миграции к DATABASE_URL
 
 ### Дизайн v2 и тестовый LLM (после Phase 0–1)
 
-- **Дизайн признан «нейрослопным»** (крем + терракота + сериф — AI-телль из skill Anthropic frontend-design). Материалы редизайна: `docs/design/README.md` — диагноз, три референса (Clue, Two Chairs, Maven), направление v2 (прохладная бумага + мох + вино; Onest ведёт, Literata — «событие»; редакционная сетка; арт-фото), задачи `tasks/T-201…T-205` (planned). Проектный скилл: `.agents/skills/design-opora/SKILL.md` (DSH подхватывает из `<repo>/.agents/skills`).
-- **Тестовый LLM-провайдер:** `LLM_PROVIDER=openai-compatible` (OpenRouter/OpenAI-совместимые) для синтетических тестов; production-контур РФ — T-101 (ADR-0004, D-031). Реальные переписки внешнему API не отправлять.
+- **Дизайн v2 внедрён** (D-033): «прохладная бумага и мох» — paper/ink/moss/wine, Onest ведёт, Literata — «событие», редакционная сетка, линии вместо карточек, без капс-бровей и `→`. Лендинг пересобран, онбординг/app переведены на Onest; `tasks/T-201/T-202` — review, `T-203…T-205` — planned. Материалы: `docs/design/README.md` (диагноз, референсы Clue/Two Chairs/Maven, российская адаптация — D-034, промпты для фото), скилл `.agents/skills/design-opora/SKILL.md`.
+- **Тестовый LLM-провайдер:** `LLM_PROVIDER=openai-compatible`, OpenCode Go (`https://opencode.ai/inference/go/openai/v1`, модель `deepseek-v4.1-flash`, заголовок `x-opencode-session` добавляется адаптером) для синтетических тестов; production-контур РФ — T-101 (ADR-0004, D-031, `docs/reports/llm-smoke-opencode.md`). Реальные переписки внешнему API не отправлять.
 - **Юридические уточнения:** D-032, `docs/reports/legal-check-2026-11-19.md` (письменное согласие на спец. категории — до беты с юристом; отдельное согласие на трансграничку не требуется; кризисные линии: 112, МЧС 8 495 989-50-50, РКК 8 800 250-18-59).
 
 ### Следующие задачи (planned)

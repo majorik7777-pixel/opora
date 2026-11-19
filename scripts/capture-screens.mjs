@@ -27,7 +27,7 @@ fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 
 const desktop = await browser.newContext({
-  viewport: { width: 1280, height: 900 },
+  viewport: { width: 1440, height: 900 },
   deviceScaleFactor: 2,
   locale: "ru-RU",
 });

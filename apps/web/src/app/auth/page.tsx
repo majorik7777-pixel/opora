@@ -42,7 +42,7 @@ export default async function AuthPage({
 
       <main className="flex-1 py-10 sm:py-16">
         <Container size="narrow">
-          <h1 className="font-display text-3xl leading-tight text-ink sm:text-4xl">
+          <h1 className="font-sans text-3xl leading-tight text-ink sm:text-4xl">
             Вход в «Опору»
           </h1>
           <p className="mt-3 text-base leading-7 text-muted">

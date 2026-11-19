@@ -2,59 +2,89 @@ import Link from "next/link";
 import { ROUTES } from "@opora/shared";
 import { buttonStyles, Container } from "@opora/ui";
 
-import { HeroIllustration } from "./landing-illustration";
+const facts = [
+  { value: "10 минут", label: "в день — всё, что нужно успеть" },
+  { value: "5 сообщений", label: "в день с AI-собеседником бесплатно" },
+  { value: "990 ₽", label: "за всю программу, доступ навсегда" },
+] as const;
 
-/**
- * Первый экран (11-copy.md §1.1): H1, подзаголовок, бесплатный вход
- * и микро-строка про разговор. Справа — абстрактная иллюстрация.
- */
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="overflow-hidden">
-      <Container className="grid gap-10 pb-14 pt-10 sm:gap-12 sm:pb-18 sm:pt-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,29rem)] lg:items-center lg:gap-16 lg:pb-24 lg:pt-20">
-        <div className="max-w-xl">
-          <h1
-            id="hero-title"
-            className="font-display text-[2rem] leading-[1.15] text-ink sm:text-[3rem] sm:leading-[1.1] lg:text-[3.5rem] lg:leading-[1.06]"
-          >
-            {"7 дней, чтобы вернуть опору после расставания"}
+    <section className="bg-moss text-paper">
+      <Container className="grid gap-12 py-14 sm:py-20 lg:grid-cols-12 lg:gap-10 lg:py-24">
+        <div className="lg:col-span-7">
+          <p className="text-sm text-moss-soft">
+            Онлайн-программа самопомощи · 18+
+          </p>
+
+          <h1 className="mt-5 text-[40px] font-medium leading-[1.02] tracking-[-0.03em] sm:text-[56px] lg:text-[72px]">
+            Семь дней, чтобы вернуть опору после расставания
           </h1>
 
-          <p className="mt-5 text-lg leading-8 text-muted sm:mt-6 sm:text-xl sm:leading-9">
+          <p className="mt-6 max-w-xl text-lg leading-8 text-moss-soft sm:text-xl sm:leading-9">
             Дневник, поддержка и маленькие шаги. Без осуждения. Анонимно.
           </p>
 
-          <div className="mt-8 sm:mt-10">
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               href={ROUTES.onboarding}
               className={buttonStyles({
                 size: "lg",
-                className: "w-full sm:w-auto",
+                variant: "paper",
+                className:
+                  "focus-visible:ring-paper focus-visible:ring-offset-moss",
               })}
             >
               Начать бесплатно
             </Link>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              Первый день — бесплатно. Карта не нужна.
-            </p>
+            <a
+              href="#seven-days"
+              className="inline-flex min-h-11 items-center px-1 text-sm text-moss-soft underline underline-offset-4 hover:text-paper"
+            >
+              Как это работает
+            </a>
           </div>
 
-          <p className="mt-8 max-w-md border-t border-line pt-6 text-sm leading-6 text-muted sm:mt-10">
-            Если сейчас очень тяжело —{" "}
-            <Link
-              href={ROUTES.onboarding}
-              className="font-medium text-accent-deep underline underline-offset-4 hover:text-accent-strong"
-            >
-              начни с бесплатного разговора
-            </Link>
-            . Это займёт минуту.
+          <p className="mt-4 text-sm text-moss-soft">
+            Первый день — бесплатно. Карта не нужна.
+          </p>
+
+          <p className="mt-10 max-w-md text-sm leading-6 text-moss-soft">
+            Если сейчас очень тяжело — начни с бесплатного разговора. Это
+            займёт минуту.
           </p>
         </div>
 
-        <div className="mx-auto w-full max-w-[26rem] sm:max-w-md lg:max-w-none">
-          <HeroIllustration className="h-auto w-full" />
+        {/* Плакат вместо героической иллюстрации: типографика как «событие». */}
+        <div className="lg:col-span-5">
+          <div className="relative border border-moss-deep bg-paper p-6 text-ink sm:p-8 lg:mt-10">
+            <div className="flex items-baseline justify-between gap-4 border-b border-line pb-4">
+              <span className="text-sm text-muted">Программа · 7 дней</span>
+              <span className="text-sm tabular-nums text-muted">01—07</span>
+            </div>
+
+            <p className="event-serif mt-8 text-[26px] leading-[1.25] sm:text-[32px]">
+              «Это не слабость. Это больно — и с этим можно работать».
+            </p>
+
+            <div className="mt-8 space-y-2 border-t border-line pt-4 text-sm text-muted">
+              <p>Урок · практика · дневник · поддержка</p>
+              <p>Каждый день — один маленький шаг.</p>
+            </div>
+          </div>
         </div>
       </Container>
+
+      <div className="border-t border-paper/15">
+        <Container className="grid gap-6 py-8 sm:grid-cols-3">
+          {facts.map((fact) => (
+            <div key={fact.value} className="border-l border-paper/25 pl-4">
+              <p className="text-xl font-medium">{fact.value}</p>
+              <p className="mt-1 text-sm leading-6 text-moss-soft">{fact.label}</p>
+            </div>
+          ))}
+        </Container>
+      </div>
     </section>
   );
 }

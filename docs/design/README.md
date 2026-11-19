@@ -15,6 +15,8 @@ AI-приёмов (кремовый фон + терракотовый акцен
 | [`references.md`](references.md) | Три референса с разбором: Clue, Two Chairs, Maven — что берём, что нет |
 | [`direction-v2.md`](direction-v2.md) | Три направления, рекомендуемая система (токены, шрифты, сетка, фото, движение), план миграции |
 | [`tools-and-skills.md`](tools-and-skills.md) | Найденные скиллы и инструменты профессиональных дизайнеров; что установить/использовать |
+| [`russian-adaptation.md`](russian-adaptation.md) | Российская адаптация: 8 проверенных референсов, 7 принципов, правки к палитре/типографике/фото/тону |
+| [`photo-prompts.md`](photo-prompts.md) | Промпты для ChatGPT Image: 8 кадров, российские сцены, формат и запреты |
 | [`../reports/design-research.md`](../reports/design-research.md) | Полное исследование: 10+ референсов, Pinterest-поиски, тренды, источники |
 | [`../../.agents/skills/design-opora/SKILL.md`](../../.agents/skills/design-opora/SKILL.md) | Проектный скилл для будущих сессий: процесс, чек-лист, команды проверки |
 

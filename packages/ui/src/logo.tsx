@@ -37,9 +37,9 @@ export interface LogoProps {
 export function Logo({ className, markOnly = false }: LogoProps) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
-      <LogoMark className="text-accent" />
+      <LogoMark className="text-moss" />
       {markOnly ? null : (
-        <span className="font-display text-xl leading-none tracking-tight text-ink">
+        <span className="text-xl font-medium leading-none tracking-[-0.02em] text-ink">
           Опора
         </span>
       )}

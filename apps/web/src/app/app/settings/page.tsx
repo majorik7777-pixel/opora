@@ -20,10 +20,10 @@ export default async function SettingsPage() {
 
   return (
     <Container size="narrow" className="py-8 sm:py-10">
-      <p className="text-sm font-medium uppercase tracking-wide text-muted">
+      <p className="text-sm text-muted">
         Аккаунт
       </p>
-      <h1 className="mt-1 font-display text-3xl leading-tight text-ink sm:text-4xl">
+      <h1 className="mt-1 font-sans text-3xl leading-tight text-ink sm:text-4xl">
         Настройки
       </h1>
 

@@ -1,63 +1,68 @@
-import { Badge, Container } from "@opora/ui";
+import { Container } from "@opora/ui";
 
-/** Маршрут из 11-copy.md §1.3: три отрезка недели. */
 const steps = [
   {
-    day: "День 1–2",
-    text: "Поймёшь, что с тобой происходит и почему так больно.",
+    period: "01",
+    days: "День 1–2",
+    title: "Поймёшь, что с тобой происходит",
+    text: "Почему так больно и почему «взять себя в руки» сейчас не работает.",
   },
   {
-    day: "День 3–5",
-    text: "Разберёшь мысли, которые добивают, и вернёшься к телу и рутине.",
+    period: "02",
+    days: "День 3–5",
+    title: "Разберёшь мысли, которые добивают",
+    text: "Вернёшься к телу, сну и рутине — маленькими шагами, без насилия над собой.",
   },
   {
-    day: "День 6–7",
-    text: "Соберёшь личный план: что делать дальше и как действовать, когда накроет снова.",
+    period: "03",
+    days: "День 6–7",
+    title: "Соберёшь личный план",
+    text: "Что делать дальше и как действовать, когда накроет снова.",
   },
 ] as const;
 
-/**
- * «Не «забудь его». Вернуть себя.» — маршрут недели на белом листе:
- * номера-круги соединены пунктирной линией на десктопе.
- */
 export function SevenDaysSection() {
   return (
     <section
-      id="program"
-      aria-labelledby="program-title"
-      className="scroll-mt-20 border-y border-line bg-surface py-14 sm:py-20"
+      id="seven-days"
+      aria-labelledby="seven-days-title"
+      className="bg-moss py-16 text-paper sm:py-20 lg:py-24"
     >
       <Container>
-        <h2
-          id="program-title"
-          className="max-w-2xl font-display text-[1.75rem] leading-[1.25] text-ink sm:text-4xl sm:leading-[1.2]"
-        >
-          Не «забудь его». Вернуть себя.
-        </h2>
-
-        <div className="relative mt-9 sm:mt-12">
-          <span
-            aria-hidden="true"
-            className="absolute inset-x-0 top-5 hidden border-t border-dashed border-line sm:block"
-          />
-
-          <ol className="grid gap-8 sm:grid-cols-3 sm:gap-6">
-            {steps.map((step, index) => (
-              <li key={step.day} className="relative flex gap-4 sm:block">
-                <span className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-display text-lg leading-none text-accent-deep">
-                  {index + 1}
-                </span>
-
-                <div className="min-w-0 sm:mt-5">
-                  <Badge tone="accent">{step.day}</Badge>
-                  <p className="mt-3 text-base leading-7 text-ink sm:text-lg sm:leading-8">
-                    {step.text}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+          <h2
+            id="seven-days-title"
+            className="text-[32px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-[44px] lg:col-span-7 lg:text-[56px]"
+          >
+            Не «забудь его». Вернуть себя.
+          </h2>
+          <p className="max-w-md text-lg leading-8 text-moss-soft lg:col-span-5">
+            Семь дней — это не марафон. Это один урок и одна практика в день,
+            чтобы снова почувствовать почву под ногами.
+          </p>
         </div>
+
+        <ol className="mt-10 border-b border-paper/20 sm:mt-14">
+          {steps.map((step) => (
+            <li
+              key={step.period}
+              className="grid gap-4 border-t border-paper/20 py-7 sm:grid-cols-12 sm:gap-6 sm:py-9"
+            >
+              <p className="event-serif text-4xl leading-none text-moss-soft sm:col-span-2 sm:text-5xl">
+                {step.period}
+              </p>
+              <div className="sm:col-span-3">
+                <p className="text-sm text-moss-soft">{step.days}</p>
+                <h3 className="mt-1 text-xl font-medium leading-snug">
+                  {step.title}
+                </h3>
+              </div>
+              <p className="max-w-md text-base leading-7 text-moss-soft sm:col-span-7">
+                {step.text}
+              </p>
+            </li>
+          ))}
+        </ol>
       </Container>
     </section>
   );

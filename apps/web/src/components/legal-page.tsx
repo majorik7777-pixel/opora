@@ -17,7 +17,7 @@ export function LegalPage({ title, version = CONSENT_VERSION, children }: LegalP
   return (
     <article>
       <p className="text-sm text-muted">Редакция от {formatVersion(version)}</p>
-      <h1 className="mt-2 font-display text-3xl leading-tight text-ink sm:text-4xl">
+      <h1 className="mt-2 font-sans text-3xl leading-tight text-ink sm:text-4xl">
         {title}
       </h1>
       <div className="legal-prose mt-6">{children}</div>

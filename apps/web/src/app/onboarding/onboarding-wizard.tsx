@@ -144,7 +144,7 @@ export function OnboardingWizard({
               id="consent-title"
               ref={headingRef}
               tabIndex={-1}
-              className="font-display text-2xl leading-tight text-ink outline-none"
+              className="font-sans text-2xl leading-tight text-ink outline-none"
             >
               Перед стартом
             </h2>
@@ -168,30 +168,36 @@ export function OnboardingWizard({
               checked={consents.processing}
               onChange={(checked) => toggleConsent("processing", checked)}
             >
-              Согласна с обработкой данных и{" "}
-              <Link
-                href={ROUTES.legal.privacy}
-                className="text-accent-deep underline underline-offset-2"
-              >
-                политикой конфиденциальности
-              </Link>
-              . Понимаю, что это не медицинская услуга.
+              Согласна с обработкой данных и политикой конфиденциальности.
+              Понимаю, что это не медицинская услуга.
             </Checkbox>
             <Checkbox
               id="consent-special"
               checked={consents.special}
               onChange={(checked) => toggleConsent("special", checked)}
             >
-              Понимаю, что рассказываю о своём состоянии, и согласна на{" "}
-              <Link
-                href={ROUTES.legal.consent}
-                className="text-accent-deep underline underline-offset-2"
-              >
-                обработку этих данных
-              </Link>{" "}
-              для работы сервиса.
+              Понимаю, что рассказываю о своём состоянии, и согласна на
+              обработку этих данных для работы сервиса.
             </Checkbox>
           </div>
+
+          <p className="text-sm leading-6 text-muted">
+            Подробнее:{" "}
+            <Link
+              href={ROUTES.legal.privacy}
+              className="text-accent-deep underline underline-offset-2"
+            >
+              политика конфиденциальности
+            </Link>
+            ,{" "}
+            <Link
+              href={ROUTES.legal.consent}
+              className="text-accent-deep underline underline-offset-2"
+            >
+              согласие на обработку данных
+            </Link>
+            .
+          </p>
 
           <p className="text-sm leading-6 text-muted">
             Все согласия можно отозвать, а данные — удалить в настройках. Это не
@@ -234,7 +240,7 @@ export function OnboardingWizard({
             id="step-title"
             ref={headingRef}
             tabIndex={-1}
-            className="font-display text-2xl leading-tight text-ink outline-none sm:text-3xl"
+            className="font-sans text-2xl leading-tight text-ink outline-none sm:text-3xl"
           >
             {step.question}
           </h2>

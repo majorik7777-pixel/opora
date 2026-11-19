@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import type {
   ChatChunk,
   ChatMessage,
@@ -18,11 +19,11 @@ import { moderateText } from "./safety";
  */
 export interface OpenAiCompatibleConfig {
   apiKey: string;
-  /** Например https://openrouter.ai/api/v1 */
+  /** Например https://openrouter.ai/api/v1 или https://opencode.ai/inference/go/openai/v1 */
   baseUrl: string;
-  /** Модель, например openai/gpt-4o-mini или deepseek/deepseek-chat */
+  /** Модель, например openai/gpt-4o-mini или deepseek-v4.1-flash */
   model: string;
-  /** Доп. заголовки (OpenRouter любит HTTP-Referer/X-Title). */
+  /** Доп. заголовки (OpenRouter: HTTP-Referer/X-Title; OpenCode Go: x-opencode-session). */
   headers?: Record<string, string>;
 }
 
@@ -36,7 +37,11 @@ interface OpenAiChunk {
 export class OpenAiCompatibleProvider implements LlmProvider {
   readonly id = "openai-compatible";
 
+  /** Стабильный id сессии для роутинга/кэша (требование OpenCode Go). */
+  private readonly sessionId: string;
+
   constructor(private readonly config: OpenAiCompatibleConfig) {
+    this.sessionId = config.headers?.["x-opencode-session"] ?? `ses_${randomUUID()}`;
     if (!config.apiKey) {
       throw new Error(
         "LLM_API_KEY не задан: провайдер openai-compatible требует ключ.",
@@ -60,6 +65,8 @@ export class OpenAiCompatibleProvider implements LlmProvider {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.config.apiKey}`,
+        "User-Agent": "opora-app/0.1 (contact: dev@opora.local)",
+        "x-opencode-session": this.sessionId,
         ...this.config.headers,
       },
       body: JSON.stringify({
@@ -126,6 +133,8 @@ export class OpenAiCompatibleProvider implements LlmProvider {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.config.apiKey}`,
+        "User-Agent": "opora-app/0.1 (contact: dev@opora.local)",
+        "x-opencode-session": this.sessionId,
         ...this.config.headers,
       },
       body: JSON.stringify({ model: this.config.model, input: texts }),

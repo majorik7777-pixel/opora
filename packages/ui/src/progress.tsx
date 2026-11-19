@@ -19,12 +19,12 @@ export function ProgressBar({ value, ariaLabel, className }: ProgressBarProps) {
       aria-valuenow={clamped}
       aria-label={ariaLabel}
       className={cn(
-        "h-2 w-full overflow-hidden rounded-full bg-sage-soft",
+        "h-1.5 w-full overflow-hidden rounded-full bg-line",
         className,
       )}
     >
       <div
-        className="h-full rounded-full bg-sage transition-[width] duration-300 ease-out motion-reduce:transition-none"
+        className="h-full rounded-full bg-moss transition-[width] duration-500 ease-out motion-reduce:transition-none"
         style={{ width: `${clamped}%` }}
       />
     </div>

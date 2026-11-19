@@ -51,10 +51,10 @@ export default async function AppHomePage() {
 
   return (
     <Container size="narrow" className="py-8 sm:py-10">
-      <p className="text-sm font-medium uppercase tracking-wide text-muted">
+      <p className="text-sm text-muted">
         Твоя опора
       </p>
-      <h1 className="mt-1 font-display text-3xl leading-tight text-ink sm:text-4xl">
+      <h1 className="mt-1 font-sans text-3xl leading-tight text-ink sm:text-4xl">
         Привет.
       </h1>
       <p className="mt-3 text-base leading-7 text-ink/90">{goalLine}</p>
@@ -97,7 +97,7 @@ export default async function AppHomePage() {
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           <Link
             href={ROUTES.appChat}
-            className="group rounded-card border border-line bg-surface p-5 shadow-soft transition-colors hover:border-accent/40 hover:bg-accent-soft/20"
+            className="group rounded-card border border-line bg-surface p-5 transition-colors hover:border-accent/50 hover:bg-accent-soft/30"
           >
             <h3 className="text-base font-medium text-ink">
               Поговорить с Опорой
@@ -107,20 +107,20 @@ export default async function AppHomePage() {
               день бесплатно.
             </p>
             <span className="mt-3 inline-block text-sm text-accent-deep">
-              Открыть чат →
+              Открыть чат
             </span>
           </Link>
 
           <Link
             href={ROUTES.appDiary}
-            className="group rounded-card border border-line bg-surface p-5 shadow-soft transition-colors hover:border-accent/40 hover:bg-accent-soft/20"
+            className="group rounded-card border border-line bg-surface p-5 transition-colors hover:border-accent/50 hover:bg-accent-soft/30"
           >
             <h3 className="text-base font-medium text-ink">Записать в дневник</h3>
             <p className="mt-1 text-sm leading-6 text-muted">
               Как ты сейчас? Настроение, мысли, что помогло.
             </p>
             <span className="mt-3 inline-block text-sm text-accent-deep">
-              Открыть дневник →
+              Открыть дневник
             </span>
           </Link>
         </div>

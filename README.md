@@ -56,11 +56,12 @@ Unit/integration-тесты живут в пакетах (`packages/shared|db|co
 
 ## Дизайн
 
-Текущий визуальный язык Phase 0–1 признан «нейрослопным» и вынесен на редизайн:
-[`docs/design/`](docs/design/README.md) — диагноз, три референса (Two Chairs, Clue, On Being),
-направление v2 (токены, типографика Literata/Onest, редакционная сетка, фото/движение), план задач
-`tasks/T-201…T-205`. Для будущих сессий установлен проектный скилл
-[`.agents/skills/design-opora/SKILL.md`](.agents/skills/design-opora/SKILL.md).
+Визуальный язык v2 внедрён (19.11.2026, D-033): «прохладная бумага и мох» — палитра
+paper/ink/moss/wine, гротеск Onest ведёт, Literata — только «событие», редакционная сетка,
+горизонтальные линии вместо карточек с тенями. Материалы: [`docs/design/`](docs/design/README.md)
+(диагноз, три референса Clue/Two Chairs/Maven, направление v2, российская адаптация, промпты для
+фото), задачи `tasks/T-201…T-205` (T-201/T-202 — review). Для будущих сессий установлен проектный
+скилл [`.agents/skills/design-opora/SKILL.md`](.agents/skills/design-opora/SKILL.md).
 
 Юридические факты перепроверены по открытым источникам:
 [`docs/reports/legal-check-2026-11-19.md`](docs/reports/legal-check-2026-11-19.md) (D-032).

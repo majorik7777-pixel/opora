@@ -4,9 +4,11 @@ import { createLlmProvider, OpenAiCompatibleProvider } from "../index";
 
 let server: Server;
 let baseUrl: string;
+let lastHeaders: Record<string, string | string[] | undefined> = {};
 
 beforeAll(async () => {
   server = createServer((request, response) => {
+    lastHeaders = request.headers;
     if (request.url?.endsWith("/chat/completions")) {
       response.writeHead(200, { "Content-Type": "text/event-stream" });
       response.write('data: {"choices":[{"delta":{"content":"Ты "}}]}\n\n');
@@ -49,6 +51,8 @@ describe("OpenAI-совместимый провайдер", () => {
 
     expect(text).toContain("Ты");
     expect(text).toContain("не одна.");
+    expect(lastHeaders["x-opencode-session"]).toMatch(/^ses_/);
+    expect(lastHeaders["user-agent"]).toContain("opora-app");
   });
 
   it("требует ключ, base URL и модель", () => {

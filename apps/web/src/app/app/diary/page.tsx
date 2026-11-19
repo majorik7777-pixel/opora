@@ -16,10 +16,10 @@ const plannedFeatures = [
 export default function DiaryPage() {
   return (
     <Container size="narrow" className="py-8 sm:py-10">
-      <p className="text-sm font-medium uppercase tracking-wide text-muted">
+      <p className="text-sm text-muted">
         Дневник · каркас Phase 0–1
       </p>
-      <h1 className="mt-1 font-display text-3xl leading-tight text-ink sm:text-4xl">
+      <h1 className="mt-1 font-sans text-3xl leading-tight text-ink sm:text-4xl">
         Дневник
       </h1>
       <p className="mt-3 text-base leading-7 text-muted">
@@ -37,13 +37,13 @@ export default function DiaryPage() {
         </div>
 
         <div>
-          <h2 className="text-sm font-medium uppercase tracking-wide text-muted">
+          <h2 className="text-sm text-muted">
             Что будет внутри
           </h2>
           <ul className="mt-2 space-y-2">
             {plannedFeatures.map((feature) => (
               <li key={feature} className="flex items-start gap-2 text-sm leading-6 text-ink/90">
-                <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-sage" />
+                <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-moss" />
                 {feature}
               </li>
             ))}
