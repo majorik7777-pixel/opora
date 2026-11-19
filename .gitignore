@@ -28,3 +28,4 @@ Thumbs.db
 # gh CLI config (token) — never commit
 .gh-config/
 .git-ssh/
+.server/
