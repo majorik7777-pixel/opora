@@ -58,7 +58,7 @@ Unit/integration-тесты живут в пакетах (`packages/shared|db|co
 
 - [`HANDOFF.md`](HANDOFF.md) — состояние проекта, что нельзя ломать, следующие шаги, правило «без
   фейковых доказательств».
-- [`docs/runbooks/deploy-test.md`](docs/runbooks/deploy-test.md) — GitHub + VPS/Verсel, домен, DNS,
+- [`docs/runbooks/deploy-test.md`](docs/runbooks/deploy-test.md) — GitHub + VPS/Vercel, домен, DNS,
   тестовый гейт (пароль/noindex/синтетика), юридический чек-лист запуска.
 
 ## Дизайн
