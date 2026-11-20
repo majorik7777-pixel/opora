@@ -11,11 +11,11 @@ export function PainSection({ program }: { program: Program }) {
     <section
       id="pains"
       aria-labelledby="pains-title"
-      className="border-t border-line py-14 sm:py-20"
+      className="border-t border-line py-10 sm:py-20"
     >
       <Container className="grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-5">
-          <div className="aspect-[4/5] overflow-hidden rounded-card border border-line">
+          <div className="aspect-[3/2] overflow-hidden rounded-card border border-line sm:aspect-[4/5]">
             <Photo
               name="quiet-room"
               widths={[800, 1400]}
@@ -25,7 +25,7 @@ export function PainSection({ program }: { program: Program }) {
               alt="Женщина сидит на полу у дивана в тихой комнате"
             />
           </div>
-          <p className="mt-4 max-w-sm text-sm leading-6 text-muted">
+          <p className="mt-4 max-w-sm text-[15px] leading-6 text-muted">
             Не нужно «держаться» и делать вид, что всё в порядке. Можно прийти
             с тем, что есть.
           </p>
@@ -46,10 +46,10 @@ export function PainSection({ program }: { program: Program }) {
             {program.pains.map((pain) => (
               <li
                 key={pain.label}
-                className="grid gap-1 py-4 sm:grid-cols-12 sm:items-baseline sm:gap-6"
+                className="grid gap-1 py-3.5 sm:grid-cols-12 sm:items-baseline sm:gap-6 sm:py-4"
               >
                 <p className="text-lg leading-7 sm:col-span-9">{pain.text}</p>
-                <p className="text-xs uppercase tracking-[0.12em] text-muted sm:col-span-3 sm:text-right">
+                <p className="text-[13px] uppercase tracking-[0.12em] text-muted sm:col-span-3 sm:text-right">
                   {pain.label}
                 </p>
               </li>

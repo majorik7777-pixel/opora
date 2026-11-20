@@ -20,15 +20,14 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-line bg-bg">
-      <Container className="py-10 sm:py-12">
+      <Container className="py-8 sm:py-12">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-sm space-y-3">
             <Logo />
             <p className="text-sm leading-6 text-muted">
-              Инструмент психологической самопомощи и поддержки. Не медицинская
-              услуга и не заменяет консультацию специалиста.
+              Инструмент психологической самопомощи и поддержки, 18+. Не
+              медицинская услуга и не заменяет консультацию специалиста.
             </p>
-            <p className="text-sm text-muted">18+ · Сделано с заботой о приватности.</p>
           </div>
 
           <nav aria-label="Статьи и программы" className="grid gap-1">

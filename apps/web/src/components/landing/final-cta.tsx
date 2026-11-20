@@ -6,9 +6,9 @@ import { Photo } from "./photo";
 
 export function FinalCta() {
   return (
-    <section aria-labelledby="final-title" className="border-t border-line py-14 sm:py-20">
+    <section aria-labelledby="final-title" className="border-t border-line py-10 sm:py-20">
       <Container className="grid items-stretch gap-6 lg:grid-cols-12 lg:gap-10">
-        <div className="relative min-h-[280px] overflow-hidden rounded-card border border-line sm:min-h-[320px] lg:col-span-6">
+        <div className="relative hidden min-h-[280px] min-w-0 overflow-hidden rounded-card border border-line sm:block sm:min-h-[320px] lg:col-span-6">
           <Photo
             name="final-window"
             widths={[800, 1600]}
@@ -20,17 +20,14 @@ export function FinalCta() {
           />
         </div>
 
-        <div className="flex flex-col justify-center rounded-card bg-surface p-6 shadow-soft sm:p-8 lg:col-span-6">
-          <p className="inline-flex w-fit items-center rounded-full bg-accent-soft px-3 py-1 text-[13px] font-medium text-accent-strong">
-            Первый шаг — бесплатно
-          </p>
+        <div className="flex min-w-0 flex-col justify-center rounded-card bg-surface p-6 shadow-soft sm:p-8 lg:col-span-6">
           <h2
             id="final-title"
-            className="mt-4 text-[28px] leading-[1.08] tracking-[-0.03em] sm:text-[38px]"
+            className="text-[28px] leading-[1.08] tracking-[-0.03em] sm:text-[38px]"
           >
             Начни сегодня. Десять минут — и станет чуть легче.
           </h2>
-          <p className="mt-3 max-w-md text-base leading-7 text-muted">
+          <p className="mt-3 max-w-md text-[15px] leading-7 text-muted">
             Первый день программы бесплатно: посмотришь, как всё устроено, и
             поймёшь, подходит ли тебе формат. Без карты и обязательств.
           </p>
@@ -43,7 +40,7 @@ export function FinalCta() {
               Пройти первый день бесплатно
             </Link>
           </div>
-          <p className="mt-3 text-sm text-muted">Анонимно · без подписки · 18+</p>
+          <p className="mt-3 text-[14px] text-muted">Анонимно · без подписки · 18+</p>
         </div>
       </Container>
     </section>

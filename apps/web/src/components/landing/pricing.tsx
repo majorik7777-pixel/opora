@@ -24,9 +24,9 @@ export function PricingSection({ program }: { program: Program }) {
       aria-labelledby="pricing-title"
       className="bg-field text-field-text"
     >
-      <Container className="grid gap-12 py-16 sm:py-20 lg:grid-cols-12 lg:gap-16">
+      <Container className="grid gap-10 py-12 sm:py-20 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-7">
-          <p className="text-[12.5px] uppercase tracking-[0.12em] opacity-70">
+          <p className="text-[13px] uppercase tracking-[0.12em] opacity-70">
             Стоимость программы
           </p>
           <h2
@@ -38,7 +38,11 @@ export function PricingSection({ program }: { program: Program }) {
             списаний.
           </h2>
 
-          <dl className="mt-8 border-t border-field-line">
+          <p className="mt-5 text-[15px] leading-6 opacity-90 sm:hidden">
+            {program.pricing.includes.map((item) => item.title).join(" · ")}
+          </p>
+
+          <dl className="mt-8 hidden border-t border-field-line sm:block">
             {program.pricing.includes.map((item) => (
               <div
                 key={item.title}
@@ -46,27 +50,27 @@ export function PricingSection({ program }: { program: Program }) {
               >
                 <dt className="text-[15px] font-medium">{item.title}</dt>
                 <span aria-hidden="true" className="hidden h-px flex-1 self-center bg-field-line sm:block" />
-                <dd className="m-0 text-[13.5px] leading-5 opacity-85">{item.text}</dd>
+                <dd className="m-0 text-[14px] leading-5 opacity-85">{item.text}</dd>
               </div>
             ))}
           </dl>
 
           <div className="mt-6 flex flex-col gap-3 border-b border-field-line pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-[12.5px] uppercase tracking-[0.12em] opacity-70">Итого</p>
+              <p className="text-[13px] uppercase tracking-[0.12em] opacity-70">Итого</p>
               <p className="mt-1 text-[56px] font-semibold leading-none tracking-[-0.045em] text-field-accent tabular-nums sm:text-[64px]">
                 {program.pricing.price}
               </p>
             </div>
-            <p className="max-w-[18ch] text-[13.5px] leading-5 opacity-85 sm:text-right">
+            <p className="max-w-[18ch] text-[14px] leading-5 opacity-85 sm:text-right">
               {program.pricing.priceNote}
             </p>
           </div>
 
-          <p className="mt-5 max-w-[46ch] text-[13.5px] leading-6 opacity-85">
+          <p className="mt-5 max-w-[46ch] text-[14px] leading-6 opacity-85">
             990 ₽ один раз — против 3 500–7 000 ₽ за одну сессию психолога и ~1 700 ₽ за месяц
             подписки ИИ-ассистента (обзоры цен, 2026). Это другой формат: программа и практики,
-            а не разговор со специалистом — если нужен специалист, подскажем, куда обратиться.
+            а не разговор со специалистом.
           </p>
 
           <div className="mt-6">
@@ -79,12 +83,12 @@ export function PricingSection({ program }: { program: Program }) {
             </Link>
           </div>
 
-          <p className="mt-3 text-[13px] leading-5 opacity-70">
+          <p className="mt-3 text-[14px] leading-5 opacity-70">
             Первый день — бесплатно, потом {program.pricing.price} один раз.
             Карта не нужна.{" "}
             <Link
               href={ROUTES.legal.offer}
-              className="underline underline-offset-2 hover:opacity-100"
+              className="inline-flex min-h-11 items-center underline underline-offset-2 hover:opacity-100"
             >
               Условия в оферте
             </Link>
@@ -92,11 +96,11 @@ export function PricingSection({ program }: { program: Program }) {
           </p>
         </div>
 
-        <div className="lg:col-span-5">
+        <div className="hidden lg:col-span-5 lg:block">
           <dl className="border-t border-field-line">
             {PASSPORT.map((item) => (
               <div key={item.title} className="border-b border-field-line/50 py-4">
-                <dt className="text-[12.5px] uppercase tracking-[0.06em] opacity-70">
+                <dt className="text-[13px] uppercase tracking-[0.06em] opacity-70">
                   {item.title}
                 </dt>
                 <dd className="m-0 mt-1 text-[14px] leading-6 opacity-90">{item.text}</dd>
@@ -104,7 +108,7 @@ export function PricingSection({ program }: { program: Program }) {
             ))}
           </dl>
 
-          <p className="mt-5 max-w-[34ch] text-[13.5px] leading-6 opacity-85">
+          <p className="mt-5 max-w-[34ch] text-[14px] leading-6 opacity-85">
             {program.pricing.guarantee} {program.pricing.paymentNote}
           </p>
         </div>

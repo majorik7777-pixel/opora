@@ -13,8 +13,12 @@ const nav = [
 export function LandingHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur-md">
-      <Container className="flex h-[72px] items-center justify-between gap-4">
-        <Link href={ROUTES.landing} aria-label="Опора — на главную">
+      <Container className="flex min-h-[72px] flex-wrap items-center justify-between gap-x-4 gap-y-1 py-2">
+        <Link
+          href={ROUTES.landing}
+          aria-label="Опора — на главную"
+          className="inline-flex min-h-11 items-center"
+        >
           <Logo />
         </Link>
 

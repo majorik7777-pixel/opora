@@ -13,6 +13,6 @@ export function Disclaimer({
   className?: string;
 }) {
   return (
-    <p className={cn("text-xs leading-5 text-muted", className)}>{children}</p>
+    <p className={cn("text-[13px] leading-6 text-muted", className)}>{children}</p>
   );
 }

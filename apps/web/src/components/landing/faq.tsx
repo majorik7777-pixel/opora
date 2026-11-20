@@ -4,7 +4,7 @@ import type { Program } from "@/content/programs/types";
 
 export function FaqSection({ program }: { program: Program }) {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="border-t border-line py-14 sm:py-20">
+    <section id="faq" aria-labelledby="faq-title" className="border-t border-line py-10 sm:py-20">
       <Container className="grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-4">
           <h2
@@ -13,7 +13,7 @@ export function FaqSection({ program }: { program: Program }) {
           >
             Частые вопросы
           </h2>
-          <p className="mt-4 max-w-sm text-base leading-7 text-muted">
+          <p className="mt-4 max-w-sm text-[15px] leading-7 text-muted">
             Не нашла ответ? Напиши нам — ответим без шаблонов.
           </p>
         </div>
@@ -22,9 +22,9 @@ export function FaqSection({ program }: { program: Program }) {
           {program.faq.map((item) => (
             <details
               key={item.question}
-              className="group border-t border-line py-4 last:border-b"
+              className="group border-t border-line py-1.5 last:border-b sm:py-4"
             >
-              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold [&::-webkit-details-marker]:hidden">
+              <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 text-[17px] font-semibold leading-6 [&::-webkit-details-marker]:hidden sm:text-lg">
                 {item.question}
                 <span
                   aria-hidden="true"
@@ -33,7 +33,7 @@ export function FaqSection({ program }: { program: Program }) {
                   +
                 </span>
               </summary>
-              <p className="mt-2 max-w-2xl text-base leading-7 text-muted">{item.answer}</p>
+              <p className="mt-2 max-w-2xl text-[15px] leading-7 text-muted sm:text-base">{item.answer}</p>
             </details>
           ))}
         </div>

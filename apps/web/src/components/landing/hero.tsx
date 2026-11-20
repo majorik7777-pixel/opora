@@ -11,7 +11,7 @@ function Headline({ text }: { text: string }) {
     <>
       {parts.map((part, index) =>
         index % 2 === 1 ? (
-          <em key={index} className="event-serif whitespace-nowrap font-normal">
+          <em key={index} className="event-serif font-normal sm:whitespace-nowrap">
             {part}
           </em>
         ) : (
@@ -33,11 +33,11 @@ function AppPreview({ program }: { program: Program }) {
           <span aria-hidden="true" className="h-2 w-2 rounded-full bg-success" />
           Опора · сегодня
         </p>
-        <p className="text-xs text-muted">{day.label}</p>
+        <p className="text-[13px] text-muted">{day.label}</p>
       </div>
 
       <div className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-sage-soft px-4 py-3">
+        <div className="hidden flex-wrap items-center justify-between gap-3 rounded-2xl bg-sage-soft px-4 py-3 sm:flex">
           <p className="text-sm font-medium text-sage-deep">Как настроение сейчас?</p>
           <div className="flex gap-1" aria-hidden="true">
             {Array.from({ length: 10 }, (_, index) => (
@@ -77,14 +77,14 @@ function AppPreview({ program }: { program: Program }) {
           </span>
           <div className="min-w-0">
             <p className="text-sm font-semibold leading-snug">{day.title}</p>
-            <p className="mt-0.5 text-xs text-muted">{day.minutes} · урок и практика</p>
+            <p className="mt-0.5 text-[13px] text-muted">{day.minutes} · урок и практика</p>
           </div>
-          <span className="ml-auto shrink-0 text-sm font-semibold text-accent-strong">
+          <span className="ml-auto min-w-0 text-right text-[13px] font-semibold leading-tight text-accent-strong">
             {day.cta}
           </span>
         </div>
 
-        <p className="mt-3 text-xs text-muted">{chat.caption}</p>
+        <p className="mt-3 hidden text-[13px] text-muted sm:block">{chat.caption}</p>
       </div>
     </div>
   );
@@ -93,8 +93,8 @@ function AppPreview({ program }: { program: Program }) {
 export function Hero({ program }: { program: Program }) {
   return (
     <section className="bg-paper">
-      <Container className="grid items-center gap-10 pb-12 pt-8 sm:pb-16 sm:pt-12 lg:grid-cols-12 lg:gap-14 lg:pb-20">
-        <div className="lg:col-span-6">
+      <Container className="grid items-center gap-8 pb-10 pt-6 sm:gap-10 sm:pb-16 sm:pt-12 lg:grid-cols-12 lg:gap-14 lg:pb-20">
+        <div className="min-w-0 lg:col-span-6">
           <p className="inline-flex items-center gap-2 rounded-full bg-sage-soft px-3.5 py-1.5 text-[13px] font-medium text-sage-deep">
             7 дней · по 10 минут · 18+
           </p>
@@ -123,12 +123,12 @@ export function Hero({ program }: { program: Program }) {
             </a>
           </div>
 
-          <p className="mt-4 text-sm leading-6 text-muted">
+          <p className="mt-4 text-[15px] leading-6 text-muted">
             Первый день — бесплатно, карта не нужна. Потом {program.pricing.price} один раз,
             доступ навсегда. Возврат 7 дней.
           </p>
 
-          <dl className="mt-9 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-6 sm:grid-cols-4">
+          <dl className="mt-9 hidden grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-6 sm:grid sm:grid-cols-4">
             <div>
               <dt className="text-xl font-semibold tracking-[-0.02em]">10 мин</dt>
               <dd className="mt-1 text-[13px] leading-5 text-muted">в день, утром или вечером</dd>
@@ -142,7 +142,7 @@ export function Hero({ program }: { program: Program }) {
           </dl>
         </div>
 
-        <div className="lg:col-span-6">
+        <div className="min-w-0 lg:col-span-6">
           <AppPreview program={program} />
         </div>
       </Container>

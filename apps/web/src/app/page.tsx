@@ -77,7 +77,7 @@ const productJsonLd = {
 
 export default function LandingPage() {
   return (
-    <div className="flex min-h-dvh flex-col pb-24 md:pb-0">
+    <div className="flex min-h-dvh flex-col pb-20 md:pb-0">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-button focus:bg-surface focus:px-4 focus:py-3 focus:text-sm focus:font-medium focus:text-ink focus:shadow-lift"
@@ -92,13 +92,13 @@ export default function LandingPage() {
         <PainSection program={rasstavanie} />
         <SevenDaysSection program={rasstavanie} />
         <InsideSection program={rasstavanie} />
-        <SafetySection />
         <PricingSection program={rasstavanie} />
+        <SafetySection />
         <FaqSection program={rasstavanie} />
         <FinalCta />
 
         <div className="border-t border-line">
-          <Container size="prose" className="py-8 sm:py-10">
+          <Container size="prose" className="py-6 sm:py-10">
             <Disclaimer>
               Сервис «Опора» — инструмент психологической самопомощи и
               поддержки. Он не является медицинской услугой, не ставит диагнозы
