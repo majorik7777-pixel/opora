@@ -8,7 +8,7 @@ export function FinalCta() {
   return (
     <section aria-labelledby="final-title" className="border-t border-line py-10 sm:py-20">
       <Container className="grid items-stretch gap-6 lg:grid-cols-12 lg:gap-10">
-        <div className="relative hidden min-h-[280px] min-w-0 overflow-hidden rounded-card border border-line sm:block sm:min-h-[320px] lg:col-span-6">
+        <div className="relative min-h-[240px] min-w-0 overflow-hidden rounded-card border border-line sm:min-h-[320px] lg:col-span-6">
           <Photo
             name="final-window"
             widths={[800, 1600]}

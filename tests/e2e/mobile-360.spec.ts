@@ -109,8 +109,10 @@ test.describe("Мобильный 360px", () => {
 
     expect(y.pricing).toBeGreaterThan(0);
     expect(y.pricing).toBeLessThan(y.safety);
-    // На 360 из фото остаётся один кадр — цена идёт после него и до всех остальных.
-    expect(y.photos.length).toBeLessThanOrEqual(1);
-    if (y.photos.length === 1) expect(y.photos[0]).toBeLessThan(y.pricing);
+    // Фотокадров на 360 два: до цены — «Если сейчас так», после — финальный блок.
+    // Цена обязана стоять выше второго кадра, иначе на мобильном она «за фото».
+    expect(y.photos.length).toBeGreaterThanOrEqual(1);
+    expect(y.photos.length).toBeLessThanOrEqual(2);
+    if (y.photos.length === 2) expect(y.photos[1]).toBeGreaterThan(y.pricing);
   });
 });
