@@ -25,6 +25,7 @@ export function PricingSection({ program }: { program: Program }) {
             <Link
               href={ROUTES.onboarding}
               className={buttonStyles({ variant: "signal", size: "lg" })}
+              data-ym="cta_price"
             >
               Начать бесплатно
             </Link>

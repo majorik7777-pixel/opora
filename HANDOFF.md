@@ -61,6 +61,27 @@
 - **Стоп/дальше:** T-101 сдан в review. Следующая задача — T-102 (дневник) или T-105 (safety-протокол,
   без него реальных пользователей в чат не пускать).
 
+### Журнал второй сессии (20.11.2026, вечер)
+
+- **12:00** домен и SSL: `opora-psihologii.ru` + `www` указывают на `31.76.19.135`, выпущен
+  Let's Encrypt (certbot webroot), nginx: 443 для домена, 301 с http/www и со старого
+  `opora.maksmaksmaks.site`. `APP_URL=https://opora-psihologii.ru`. Проверка:
+  `curl -sI https://opora-psihologii.ru/` → `HTTP/2 200`; редиректы 301.
+- **12:20** Метрика: компонент `components/analytics/yandex-metrika.tsx` (счётчик 114384853,
+  `NEXT_PUBLIC_YM_ID`, SPA-hit, делегированные цели через `data-ym`, noscript). Цели расставлены на
+  CTA лендинга, онбординг, чат (сообщение/лимит/кризис), страницу помощи. Регистрация теперь
+  завершается страницей `/welcome` — это URL-цель, работает при блокировщике.
+  Документ: `docs/marketing/metrika-goals.md`.
+- **12:40** версии лендинга: текущий снимок скопирован в `components/landing-v1`, архивная страница
+  `/1` (noindex, canonical `/1`), правило в `docs/design/versions.md`, тег `landing-v1`.
+- **13:00** safety (первый шаг T-105): `packages/core/src/safety.ts` с `assessRisk()`
+  (`none|elevated|crisis`), чат останавливает генерацию при кризисе, страница `/app/safety`
+  с телефонами и `tel:`, 5 тестов. Документы: `docs/specs/safety.md` (в работе), отчёт в T-105.
+- **13:15** дизайн и идеи: `docs/design/anti-slop-v5.md` (что именно делает v4 «нейрослопным» и
+  план v5 по шагам), `docs/design/photo-prompts-v2.md` (промпты под каждый кадр),
+  `docs/product/ideas-backlog.md` (деньги, продукт, доверие, SEO, данные).
+- **Проверки:** `pnpm test` 41 passed, e2e 28/28, lint/typecheck/build — зелёные.
+
 
 
 

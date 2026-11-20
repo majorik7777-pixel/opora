@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
+import { yandexMetrikaGoal } from "@/components/analytics/yandex-metrika";
 import {
   ONBOARDING_CONSENT_COPY,
   ONBOARDING_STEPS,
@@ -109,6 +110,7 @@ export function OnboardingWizard({
     startTransition(async () => {
       const result = await submitOnboardingAction(draft);
       if (result.ok) {
+        yandexMetrikaGoal("onboarding_complete");
         router.push(result.data.redirectTo);
         return;
       }

@@ -111,6 +111,7 @@ export function Hero({ program }: { program: Program }) {
             <Link
               href={ROUTES.onboarding}
               className={buttonStyles({ variant: "signal", size: "lg" })}
+              data-ym="cta_hero"
             >
               Начать первый день
             </Link>

@@ -23,6 +23,7 @@ export function StickyCta() {
       <Link
         href={ROUTES.onboarding}
         className={buttonStyles({ variant: "signal", size: "md", fullWidth: true })}
+        data-ym="cta_sticky"
       >
         Пройти первый день бесплатно
       </Link>

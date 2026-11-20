@@ -38,7 +38,8 @@ async function loginAsNewUser(page: Page): Promise<void> {
   await expect(devLink).toBeVisible();
   const href = await devLink.getAttribute("href");
   await page.goto(href ?? "/");
-  await expect(page).toHaveURL(/\/app$/);
+  await expect(page).toHaveURL(/\/welcome$/);
+  await page.goto("/app");
 }
 
 test.describe("Чат T-101", () => {

@@ -38,6 +38,7 @@ export function FinalCta() {
             <Link
               href={ROUTES.onboarding}
               className={buttonStyles({ variant: "signal", size: "lg" })}
+              data-ym="cta_final"
             >
               Начать первый день
             </Link>

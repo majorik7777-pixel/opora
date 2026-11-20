@@ -14,7 +14,7 @@ import { SevenDaysSection } from "@/components/landing/seven-days";
 import { StickyCta } from "@/components/landing/sticky-cta";
 import { SiteFooter } from "@/components/site-footer";
 
-const BASE_URL = process.env.APP_URL ?? "https://opora.ru";
+const BASE_URL = process.env.APP_URL ?? "https://opora-psihologii.ru";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),

@@ -25,13 +25,13 @@ import {
 import {
   CHAT_SYSTEM_PROMPT_V1,
   createLlmProvider,
-  moderateText,
   type ChatMessage,
   type LlmProvider,
 } from "@opora/llm";
 import { getEnv, openText, sealText, uuidv7 } from "@opora/shared/server";
 
 import { getOnboardingProfile } from "./onboarding";
+import { assessRisk } from "./safety";
 
 /**
  * Чат «Опоры» (T-101, docs/specs/chat.md).
@@ -52,11 +52,15 @@ export interface SafetyVerdict {
 /** Хук безопасности: вызывается до генерации. T-105 заменит заглушку. */
 export type SafetyHook = (text: string) => SafetyVerdict | Promise<SafetyVerdict>;
 
+/**
+ * Хук по умолчанию: правило-классификатор из `safety.ts` (T-105).
+ * Полный протокол (модельный классификатор, журнал инцидентов) — отдельный шаг.
+ */
 export const localSafetyHook: SafetyHook = (text) => {
-  const verdict = moderateText(text);
+  const assessment = assessRisk(text);
   return {
-    flagged: verdict.flagged,
-    reason: verdict.categories.join(", ") || undefined,
+    flagged: assessment.requiresCrisisScreen,
+    reason: assessment.categories.join(", ") || undefined,
   };
 };
 

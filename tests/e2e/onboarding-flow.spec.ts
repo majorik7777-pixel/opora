@@ -72,6 +72,9 @@ test.describe("Сквозной путь", () => {
 
     // 5. Переход по ссылке → /app
     await page.goto(link ?? "/");
+    // Новая регистрация ведёт на страницу успеха (она же URL-цель в Метрике).
+    await expect(page).toHaveURL(/\/welcome$/);
+    await page.getByRole("link", { name: "Перейти к программе" }).click();
     await expect(page).toHaveURL(/\/app$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "Привет",

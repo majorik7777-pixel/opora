@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { YandexMetrika } from "@/components/analytics/yandex-metrika";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#f1f1ea",
+  themeColor: "#fbfaf6",
 };
 
 export default function RootLayout({
@@ -36,6 +37,7 @@ export default function RootLayout({
     <html lang="ru">
       <body className="min-h-dvh bg-bg font-sans text-ink antialiased">
         {children}
+        <YandexMetrika />
       </body>
     </html>
   );

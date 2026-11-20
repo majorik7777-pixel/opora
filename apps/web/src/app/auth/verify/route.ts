@@ -44,7 +44,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       const saved = await saveOnboarding(result.data.user.id, draft, {
         ipHash,
       });
-      if (saved.ok) target = "/app";
+      // Новая регистрация → страница успеха: она же служит URL-целью в Метрике
+      // (работает даже при включённом блокировщике, в отличие от JS-события).
+      if (saved.ok) target = "/welcome";
     } catch (error) {
       // Повреждённый/подменённый черновик не должен ломать вход.
       console.warn(

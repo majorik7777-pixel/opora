@@ -33,6 +33,7 @@ export function LandingHeader() {
         <Link
           href={ROUTES.onboarding}
           className={buttonStyles({ variant: "signal", size: "sm" })}
+          data-ym="cta_header"
         >
           Начать бесплатно
         </Link>

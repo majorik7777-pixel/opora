@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL = process.env.APP_URL ?? "https://opora.ru";
+const BASE_URL = process.env.APP_URL ?? "https://opora-psihologii.ru";
 
 /** Пока в sitemap только реальные публичные страницы; SEO-кластер статей добавится в T-301. */
 export default function sitemap(): MetadataRoute.Sitemap {

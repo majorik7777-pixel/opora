@@ -11,6 +11,7 @@ import {
   type ChatStreamEvent,
 } from "@opora/shared";
 import { buttonStyles } from "@opora/ui";
+import { yandexMetrikaGoal } from "@/components/analytics/yandex-metrika";
 
 interface ChatPanelProps {
   initialMessages: ChatMessageView[];
@@ -50,6 +51,7 @@ export function ChatPanel({ initialMessages, initialRemaining, limit }: ChatPane
     const value = rawText.trim();
     if (!value || pending) return;
     if (remaining <= 0) {
+      yandexMetrikaGoal("chat_limit");
       setError("На сегодня лимит сообщений закончился. Возвращайся завтра — или открой программу дня.");
       return;
     }
@@ -121,11 +123,13 @@ export function ChatPanel({ initialMessages, initialRemaining, limit }: ChatPane
             answer += event.delta;
             setDraft(answer);
           } else if (event.type === "safety") {
+            yandexMetrikaGoal("chat_crisis");
             setCrisis(true);
             setDraft("");
           } else if (event.type === "error") {
             setError(event.message);
           } else if (event.type === "done") {
+            yandexMetrikaGoal("chat_message");
             // Важно: считаем текст ДО setMessages — updater выполняется позже,
             // когда answer уже сброшен.
             const finalText = answer.trim();
@@ -233,6 +237,12 @@ export function ChatPanel({ initialMessages, initialRemaining, limit }: ChatPane
               </li>
             ))}
           </ul>
+          <Link
+            href="/app/safety"
+            className="mt-3 inline-flex min-h-9 items-center text-sm font-semibold text-accent-strong underline underline-offset-2"
+          >
+            Что делать прямо сейчас
+          </Link>
           <p className="mt-2 text-xs text-muted">Проверено {CRISIS_CONTACTS_VERIFIED_AT}</p>
         </div>
       ) : null}
