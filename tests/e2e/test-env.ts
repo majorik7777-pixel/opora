@@ -15,6 +15,8 @@ export const E2E_ENV = {
   AUTH_DEV_SHOW_LINK: "true",
   EMAIL_TRANSPORT: "console",
   LLM_PROVIDER: "fake",
+  // В e2e оплата работает в DEV-режиме: иначе production-сборка отдаёт PAYMENTS_MODE=off.
+  PAYMENTS_MODE: "dev",
   // e2e логинится в каждом тесте: лимит magic-link с одного IP поднимаем, иначе
   // 6-й+ тест в минуту получает «Слишком много попыток».
   MAGIC_LINK_RATE_LIMIT: "100",

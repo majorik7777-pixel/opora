@@ -144,6 +144,30 @@ export const chatMessages = pgTable(
   ],
 );
 
+/**
+ * Доступ к программе (T-104). В DEV-режиме выдаётся серверным действием
+ * `startDevPurchase`, в production — вебхуком платёжного провайдера.
+ */
+export const entitlements = pgTable(
+  "entitlements",
+  {
+    id: uuid("id").primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    programSlug: text("program_slug").notNull(),
+    status: text("status").notNull().default("active"),
+    /** dev | yookassa — откуда появился доступ. */
+    source: text("source").notNull(),
+    externalId: text("external_id"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("entitlements_user_program_uq").on(table.userId, table.programSlug),
+    index("entitlements_user_idx").on(table.userId),
+  ],
+);
+
 export const schema = {
   users,
   authTokens,
@@ -152,4 +176,5 @@ export const schema = {
   onboardingAnswers,
   chatThreads,
   chatMessages,
+  entitlements,
 };

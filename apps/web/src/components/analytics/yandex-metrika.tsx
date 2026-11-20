@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Script from "next/script";
 import { usePathname } from "next/navigation";
 
 /**
@@ -68,8 +67,10 @@ export function YandexMetrika() {
 
   return (
     <>
-      <Script id="yandex-metrika" strategy="afterInteractive">
-        {`
+      <script
+        id="yandex-metrika"
+        dangerouslySetInnerHTML={{
+          __html: `
 (function(m,e,t,r,i,k,a){
   m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
   m[i].l=1*new Date();
@@ -78,8 +79,9 @@ export function YandexMetrika() {
 })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=${YM_COUNTER_ID}', 'ym');
 
 ym(${YM_COUNTER_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-        `}
-      </Script>
+`,
+        }}
+      />
       <noscript>
         <div>
           <img

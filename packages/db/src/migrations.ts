@@ -103,6 +103,22 @@ export const MIGRATIONS: readonly Migration[] = [
       `CREATE INDEX IF NOT EXISTS "chat_messages_user_created_idx" ON "chat_messages" ("user_id", "created_at")`,
     ],
   },
+  {
+    id: "0002_entitlements",
+    statements: [
+      `CREATE TABLE IF NOT EXISTS "entitlements" (
+        "id" uuid PRIMARY KEY NOT NULL,
+        "user_id" uuid NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE,
+        "program_slug" text NOT NULL,
+        "status" text DEFAULT 'active' NOT NULL,
+        "source" text NOT NULL,
+        "external_id" text,
+        "created_at" timestamptz DEFAULT now() NOT NULL
+      )`,
+      `CREATE UNIQUE INDEX IF NOT EXISTS "entitlements_user_program_uq" ON "entitlements" ("user_id", "program_slug")`,
+      `CREATE INDEX IF NOT EXISTS "entitlements_user_idx" ON "entitlements" ("user_id")`,
+    ],
+  },
 ];
 
 const MIGRATIONS_TABLE = `CREATE TABLE IF NOT EXISTS "_opora_migrations" (

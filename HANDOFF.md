@@ -80,7 +80,12 @@
 - **13:15** дизайн и идеи: `docs/design/anti-slop-v5.md` (что именно делает v4 «нейрослопным» и
   план v5 по шагам), `docs/design/photo-prompts-v2.md` (промпты под каждый кадр),
   `docs/product/ideas-backlog.md` (деньги, продукт, доверие, SEO, данные).
-- **Проверки:** `pnpm test` 41 passed, e2e 28/28, lint/typecheck/build — зелёные.
+- **13:40** оплата в DEV-режиме (первый шаг T-104): `entitlements` + миграция `0002`, домен
+  `billing.ts` (`PAYMENTS_MODE=dev|off`, `getProgramAccess`, `startDevPurchase`), `/paywall`,
+  страница успеха `/welcome/purchase` (URL-цель), гейт в `/app/program`. Деньги не списываются,
+  доступ `source=dev`; в production по умолчанию `off`.
+- **Проверки:** `pnpm test` → 44+ (llm 8, shared 11, db 3, core 22), e2e — полный прогон после
+  оплаты, lint/typecheck/build — зелёные. Канонические URL теперь `https://opora-psihologii.ru`.
 
 
 

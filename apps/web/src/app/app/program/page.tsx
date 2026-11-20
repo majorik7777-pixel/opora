@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { PROGRAM_LENGTH_DAYS, PROGRAM_PRICE_RUB } from "@opora/shared";
-import { Badge, Card, Container, Disclaimer } from "@opora/ui";
+import Link from "next/link";
+import { PROGRAM_LENGTH_DAYS, PROGRAM_PRICE_RUB, ROUTES } from "@opora/shared";
+import { getProgramAccess } from "@opora/core";
+import { Badge, Card, Container, Disclaimer, buttonStyles } from "@opora/ui";
+import { requireOnboardedUser } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "Программа",
@@ -51,7 +54,10 @@ const DAYS: readonly ProgramDayPreview[] = [
   },
 ];
 
-export default function ProgramPage() {
+export default async function ProgramPage() {
+  const user = await requireOnboardedUser();
+  const access = await getProgramAccess(user.id, "rasstavanie");
+
   return (
     <Container size="narrow" className="py-8 sm:py-10">
       <p className="text-sm text-muted">
@@ -64,6 +70,23 @@ export default function ProgramPage() {
         {PROGRAM_LENGTH_DAYS} дней по 10 минут: урок, практика и два вопроса для
         рефлексии. В конце — отчёт и план на 30 дней.
       </p>
+
+      {access.active ? (
+        <p className="mt-3 inline-flex items-center rounded-full bg-sage-soft px-3 py-1 text-[13px] font-medium text-sage-deep">
+          Доступ открыт · оплачено
+        </p>
+      ) : (
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
+          <Link
+            href={ROUTES.paywall}
+            className={buttonStyles({ variant: "signal", size: "md" })}
+            data-ym="program_to_paywall"
+          >
+            Открыть доступ за {PROGRAM_PRICE_RUB} ₽
+          </Link>
+          <span className="text-sm text-muted">Первый день — бесплатно</span>
+        </div>
+      )}
 
       <Card className="mt-6 space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2">

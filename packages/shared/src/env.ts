@@ -12,6 +12,8 @@ const envSchema = z.object({
   PGLITE_DATA_DIR: z.string().default(".data/dev"),
 
   AUTO_MIGRATE: z.string().optional(),
+  /** dev — оплата имитируется (T-104), off — выключена, yookassa — позже. */
+  PAYMENTS_MODE: z.enum(["dev", "off"]).optional(),
   /** Переопределение лимита magic-link с одного IP за минуту (e2e и нагрузочные тесты). */
   MAGIC_LINK_RATE_LIMIT: z.coerce.number().int().positive().optional(),
   AUTH_DEV_SHOW_LINK: z.string().optional(),
@@ -61,6 +63,8 @@ export interface AppEnv {
   showDevMagicLink: boolean;
   /** Лимит запросов magic-link с одного IP в минуту (по умолчанию 5). */
   magicLinkRateLimit: number | undefined;
+  /** Режим оплаты: dev (имитация) или off. */
+  PAYMENTS_MODE: "dev" | "off" | undefined;
 }
 
 /**
@@ -99,5 +103,6 @@ export function getEnv(): AppEnv {
       data.AUTH_DEV_SHOW_LINK === "true" ||
       (!isProduction && data.AUTH_DEV_SHOW_LINK !== "false"),
     magicLinkRateLimit: data.MAGIC_LINK_RATE_LIMIT,
+    PAYMENTS_MODE: data.PAYMENTS_MODE,
   };
 }
