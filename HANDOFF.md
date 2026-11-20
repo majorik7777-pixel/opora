@@ -108,6 +108,21 @@
 - **Дальше:** деплой, проверка Метрики в проде, затем дизайн v5.1 (палитра-антагонист, тёмное поле,
   плакатная типографика) на `/2`.
 
+### Журнал третьей сессии (20.11.2026, каталог программ)
+
+- **11:15** И-6: каталог `programs` (slug, title, summary, status, price_rub, content_version,
+  sort_order) + миграция `0003_programs` сеет `rasstavanie` (990 ₽, published) идемпотентно;
+  в `chat_threads` добавлен `program_slug` (nullable). Репозиторий `repositories/programs.ts`,
+  тесты db 5 (каталог, program_slug) и core 24 — зелёные.
+- **11:40** И-7: `@opora/core/catalog` (`getCatalogProgram`, `getPublishedProgram`,
+  `listCatalogPrograms`), роут `/programs/[slug]` на каталоге + контенте (canonical, JSON-LD Product,
+  404 для черновика), хаб `/programs`, sitemap с программами из реестра контента.
+  Проверка локального prod-сервера: `/programs/rasstavanie` → 200, `/programs/net-takoy` → 404,
+  `/programs` → 200, URL в sitemap. Коммит `feff568`, задеплоено на тест.
+- **Дизайн:** v5 отложен решением основателя (правит в отдельном чате), текущий v4 остаётся.
+  Макеты и разбор — `docs/design/v5-directions.md`.
+
+
 
 
 
