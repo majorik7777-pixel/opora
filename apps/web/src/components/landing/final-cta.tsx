@@ -40,7 +40,7 @@ export function FinalCta() {
               className={buttonStyles({ variant: "signal", size: "lg" })}
               data-ym="cta_final"
             >
-              Начать первый день
+              Пройти первый день бесплатно
             </Link>
           </div>
           <p className="mt-3 text-sm text-muted">Анонимно · без подписки · 18+</p>

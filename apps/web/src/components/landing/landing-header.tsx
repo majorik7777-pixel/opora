@@ -30,13 +30,23 @@ export function LandingHeader() {
           ))}
         </nav>
 
-        <Link
-          href={ROUTES.onboarding}
-          className={buttonStyles({ variant: "signal", size: "sm" })}
-          data-ym="cta_header"
+        {/* Одна primary на экран: на мобильном кнопку в шапке не показываем —
+            её роль выполняет кнопка в hero. */}
+        <div className="hidden md:block">
+          <Link
+            href={ROUTES.onboarding}
+            className={buttonStyles({ variant: "signal", size: "sm" })}
+            data-ym="cta_header"
+          >
+            Пройти первый день бесплатно
+          </Link>
+        </div>
+        <a
+          href="#pricing"
+          className="inline-flex min-h-11 items-center rounded-xl px-3 text-sm font-medium text-ink md:hidden"
         >
-          Начать бесплатно
-        </Link>
+          Цена
+        </a>
       </Container>
     </header>
   );

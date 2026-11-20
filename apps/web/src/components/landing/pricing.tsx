@@ -63,13 +63,19 @@ export function PricingSection({ program }: { program: Program }) {
             </p>
           </div>
 
+          <p className="mt-5 max-w-[46ch] text-[13.5px] leading-6 opacity-85">
+            990 ₽ один раз — против 3 500–7 000 ₽ за одну сессию психолога и ~1 700 ₽ за месяц
+            подписки ИИ-ассистента (обзоры цен, 2026). Это другой формат: программа и практики,
+            а не разговор со специалистом — если нужен специалист, подскажем, куда обратиться.
+          </p>
+
           <div className="mt-6">
             <Link
               href={ROUTES.onboarding}
               className={buttonStyles({ variant: "signal", size: "lg" })}
               data-ym="cta_price"
             >
-              Начать бесплатно
+              Пройти первый день бесплатно
             </Link>
           </div>
 

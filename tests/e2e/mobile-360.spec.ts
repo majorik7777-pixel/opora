@@ -15,7 +15,7 @@ test.describe("Мобильный 360px", () => {
     }));
     expect(widths.scroll).toBeLessThanOrEqual(widths.client + 1);
 
-    const cta = page.getByRole("link", { name: "Начать первый день" }).first();
+    const cta = page.getByRole("link", { name: "Пройти первый день бесплатно" }).first();
     await expect(cta).toBeVisible();
     const box = await cta.boundingBox();
     expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);

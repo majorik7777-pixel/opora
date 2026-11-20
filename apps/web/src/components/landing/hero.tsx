@@ -113,7 +113,7 @@ export function Hero({ program }: { program: Program }) {
               className={buttonStyles({ variant: "signal", size: "lg" })}
               data-ym="cta_hero"
             >
-              Начать первый день
+              Пройти первый день бесплатно
             </Link>
             <a
               href="#inside"
@@ -123,7 +123,10 @@ export function Hero({ program }: { program: Program }) {
             </a>
           </div>
 
-          <p className="mt-4 text-sm text-muted">{program.heroNote}</p>
+          <p className="mt-4 text-sm leading-6 text-muted">
+            Первый день — бесплатно, карта не нужна. Потом {program.pricing.price} один раз,
+            доступ навсегда. Возврат 7 дней.
+          </p>
 
           <dl className="mt-9 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-6 sm:grid-cols-4">
             <div>

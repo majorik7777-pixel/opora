@@ -19,7 +19,7 @@ test.describe("Сквозной путь", () => {
     );
 
     await page
-      .getByRole("link", { name: "Начать первый день" })
+      .getByRole("link", { name: "Пройти первый день бесплатно" })
       .first()
       .click();
     await expect(page).toHaveURL(/\/onboarding$/);

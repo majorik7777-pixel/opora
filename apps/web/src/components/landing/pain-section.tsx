@@ -59,7 +59,7 @@ export function PainSection({ program }: { program: Program }) {
           <div className="mt-8">
             <Link
               href={ROUTES.onboarding}
-              className={buttonStyles({ variant: "primary", size: "md" })}
+              className={buttonStyles({ variant: "secondary", size: "md" })}
             >
               Это про меня — начать с первого дня
             </Link>
