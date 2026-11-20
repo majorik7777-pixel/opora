@@ -1,4 +1,4 @@
-import { boolean, index, integer, pgTable, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { boolean, date, index, integer, pgTable, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 
 /**
  * Схема БД Phase 0–1 (12-tech-plan.md §4, уточнения в ADR-0002/0003).
@@ -201,6 +201,30 @@ export const entitlements = pgTable(
   ],
 );
 
+/**
+ * Дневник (T-102). Текст записи хранится только зашифрованным (text_enc),
+ * теги — из фиксированного списка, мягкое удаление через deleted_at.
+ */
+export const diaryEntries = pgTable(
+  "diary_entries",
+  {
+    id: uuid("id").primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    entryDate: date("entry_date").notNull(),
+    mood: integer("mood").notNull(),
+    textEnc: text("text_enc"),
+    tags: text("tags").array().notNull().default([]),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
+  },
+  (table) => [
+    index("diary_entries_user_date_idx").on(table.userId, table.entryDate),
+  ],
+);
+
 export const schema = {
   users,
   authTokens,
@@ -211,4 +235,5 @@ export const schema = {
   chatThreads,
   chatMessages,
   entitlements,
+  diaryEntries,
 };
