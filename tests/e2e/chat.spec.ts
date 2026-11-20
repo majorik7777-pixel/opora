@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { chooseOption, loginAsNewUser } from "./helpers";
+import { loginAsNewUser } from "./helpers";
 
 /**
  * T-101: чат — стриминг ответа, дневной лимит, мобильный 360.
