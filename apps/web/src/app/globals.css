@@ -88,6 +88,12 @@
   --color-sage: #a9b3a3;
   --color-sage-soft: #edf0ea;
   --color-sage-deep: #3e4a3d;
+  /* Тёмное поле (T-403): один тёмный блок на странице, графит + янтарь. */
+  --color-field: #15181a;
+  --color-field-text: #f2f0ea;
+  --color-field-line: rgba(242, 240, 234, 0.22);
+  --color-field-accent: #e0a05c;
+
   --color-success: #4f6b4f;
   --color-warning: #b07a2e;
   --color-danger: #a64b4b;
@@ -95,8 +101,11 @@
   --font-sans: "Onest", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --font-display: "Literata", Georgia, "Times New Roman", serif;
 
-  --radius-card: 18px;
-  --radius-button: 14px;
+  /* Два уровня поверхностей вместо одного (T-403): плоские полосы 0–2 px,
+     интерактивные карточки 16, кнопки 8. */
+  --radius-card: 16px;
+  --radius-flat: 2px;
+  --radius-button: 8px;
   --radius-field: 12px;
   --radius-bubble: 16px;
 
