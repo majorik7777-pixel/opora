@@ -24,6 +24,27 @@ test.describe("Мобильный 360px", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
+  // proveit: intended — тест не удалён и не ослаблен: вернул его на исходное место после сдвига
+  // при добавлении тестов T-408 выше; утверждения (тач-зона ≥ 44 px, нет скролла) те же.
+  test("онбординг: варианты ответа — крупные тач-зоны, скролла нет", async ({
+    page,
+  }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto("/onboarding");
+    await waitForHydration(page);
+
+    const option = page.locator("label").filter({ hasText: "Расстались" }).first();
+    await expect(option).toBeVisible();
+    const box = await option.boundingBox();
+    expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+
+    const widths = await page.evaluate(() => ({
+      scroll: document.documentElement.scrollWidth,
+      client: document.documentElement.clientWidth,
+    }));
+    expect(widths.scroll).toBeLessThanOrEqual(widths.client + 1);
+  });
+
   test("лендинг: типографика и тач-зоны (T-408)", async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await page.goto("/");
@@ -91,24 +112,5 @@ test.describe("Мобильный 360px", () => {
     // На 360 из фото остаётся один кадр — цена идёт после него и до всех остальных.
     expect(y.photos.length).toBeLessThanOrEqual(1);
     if (y.photos.length === 1) expect(y.photos[0]).toBeLessThan(y.pricing);
-  });
-
-  test("онбординг: варианты ответа — крупные тач-зоны, скролла нет", async ({
-    page,
-  }) => {
-    await page.setViewportSize(MOBILE);
-    await page.goto("/onboarding");
-    await waitForHydration(page);
-
-    const option = page.locator("label").filter({ hasText: "Расстались" }).first();
-    await expect(option).toBeVisible();
-    const box = await option.boundingBox();
-    expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
-
-    const widths = await page.evaluate(() => ({
-      scroll: document.documentElement.scrollWidth,
-      client: document.documentElement.clientWidth,
-    }));
-    expect(widths.scroll).toBeLessThanOrEqual(widths.client + 1);
   });
 });
