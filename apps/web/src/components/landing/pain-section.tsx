@@ -25,7 +25,7 @@ export function PainSection({ program }: { program: Program }) {
               alt="Женщина сидит на полу у дивана в тихой комнате"
             />
           </div>
-          <p className="mt-3 text-sm leading-6 text-muted">
+          <p className="mt-4 max-w-sm text-sm leading-6 text-muted">
             Не нужно «держаться» и делать вид, что всё в порядке. Можно прийти
             с тем, что есть.
           </p>
@@ -34,22 +34,22 @@ export function PainSection({ program }: { program: Program }) {
         <div className="lg:col-span-7">
           <h2
             id="pains-title"
-            className="text-[30px] leading-[1.05] tracking-[-0.03em] sm:text-[40px]"
+            className="text-[32px] leading-[1.06] tracking-[-0.03em] sm:text-[44px]"
           >
             Если сейчас так:
           </h2>
-          <p className="mt-4 max-w-lg text-lg leading-8 text-ink/75">
+          <p className="mt-4 max-w-lg text-lg leading-8 text-muted">
             Это не слабость. Это больно — и с этим можно работать.
           </p>
 
-          <ul className="mt-8 border-b border-line">
+          <ul className="mt-8 divide-y divide-line border-y border-line">
             {program.pains.map((pain) => (
               <li
                 key={pain.label}
-                className="grid gap-1 border-t border-line py-4 sm:grid-cols-12 sm:items-baseline sm:gap-6"
+                className="grid gap-1 py-4 sm:grid-cols-12 sm:items-baseline sm:gap-6"
               >
                 <p className="text-lg leading-7 sm:col-span-9">{pain.text}</p>
-                <p className="text-sm text-muted sm:col-span-3 sm:text-right">
+                <p className="text-xs uppercase tracking-[0.12em] text-muted sm:col-span-3 sm:text-right">
                   {pain.label}
                 </p>
               </li>
@@ -59,7 +59,7 @@ export function PainSection({ program }: { program: Program }) {
           <div className="mt-8">
             <Link
               href={ROUTES.onboarding}
-              className={buttonStyles({ variant: "secondary", size: "md" })}
+              className={buttonStyles({ variant: "primary", size: "md" })}
             >
               Это про меня — начать с первого дня
             </Link>

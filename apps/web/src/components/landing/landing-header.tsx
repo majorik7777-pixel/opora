@@ -4,16 +4,16 @@ import { buttonStyles, Container, Logo } from "@opora/ui";
 
 const nav = [
   { href: "#how", label: "Как это работает" },
-  { href: "#look", label: "Как выглядит" },
   { href: "#inside", label: "Что внутри" },
+  { href: "#safety", label: "Приватность" },
   { href: "#pricing", label: "Цена" },
   { href: "#faq", label: "Вопросы" },
 ] as const;
 
 export function LandingHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-paper/95 backdrop-blur">
-      <Container className="flex h-16 items-center justify-between gap-4">
+    <header className="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur-md">
+      <Container className="flex h-[72px] items-center justify-between gap-4">
         <Link href={ROUTES.landing} aria-label="Опора — на главную">
           <Logo />
         </Link>
@@ -23,7 +23,7 @@ export function LandingHeader() {
             <a
               key={item.href}
               href={item.href}
-              className="flex min-h-11 items-center px-3 text-sm text-muted transition-colors hover:text-ink"
+              className="flex min-h-11 items-center rounded-xl px-3 text-sm text-muted transition-colors hover:bg-accent-soft/50 hover:text-ink"
             >
               {item.label}
             </a>
@@ -34,7 +34,7 @@ export function LandingHeader() {
           href={ROUTES.onboarding}
           className={buttonStyles({ variant: "signal", size: "sm" })}
         >
-          Пройти первый день
+          Начать бесплатно
         </Link>
       </Container>
     </header>

@@ -15,7 +15,7 @@ export function InsideSection({ program }: { program: Program }) {
         <div className="lg:col-span-5">
           <h2
             id="inside-title"
-            className="text-[30px] leading-[1.05] tracking-[-0.03em] sm:text-[40px]"
+            className="text-[32px] leading-[1.06] tracking-[-0.03em] sm:text-[44px]"
           >
             Внутри — семь дней, а не сто уроков.
           </h2>
@@ -23,7 +23,7 @@ export function InsideSection({ program }: { program: Program }) {
             Каждый день — один урок, одна практика и два вопроса для рефлексии.
             Без домашних заданий на три часа и чувства вины, если пропустила.
           </p>
-          <div className="mt-7 aspect-[4/3] overflow-hidden rounded-card border border-line">
+          <div className="mt-8 aspect-[4/3] overflow-hidden rounded-card border border-line">
             <Photo
               name="notebook"
               widths={[700, 1200]}
@@ -35,11 +35,17 @@ export function InsideSection({ program }: { program: Program }) {
           </div>
         </div>
 
-        <ul className="border-b border-line lg:col-span-7">
-          {program.inside.map((item) => (
-            <li key={item.title} className="border-t border-line py-5">
-              <h3 className="text-xl font-medium">{item.title}</h3>
-              <p className="mt-1 max-w-xl text-base leading-7 text-muted">{item.text}</p>
+        <ul className="divide-y divide-line border-y border-line lg:col-span-7">
+          {program.inside.map((item, index) => (
+            <li
+              key={item.title}
+              className="grid gap-1.5 py-5 sm:grid-cols-12 sm:gap-5"
+            >
+              <p className="text-xs font-semibold tabular-nums text-accent-strong sm:col-span-1">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+              <h3 className="text-lg font-semibold sm:col-span-4">{item.title}</h3>
+              <p className="text-sm leading-6 text-muted sm:col-span-7">{item.text}</p>
             </li>
           ))}
         </ul>

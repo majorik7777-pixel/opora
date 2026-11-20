@@ -37,15 +37,17 @@ Vercel Web Interface Guidelines и бренд-решений «Опоры» (doc
 «осталось N мест», фейковых рейтингов; отмена в 2 клика. `paper-read #EDE7DB` — только длинное чтение.
 Подробно — `docs/design/russian-adaptation.md`, проверка гипотез — на 5 женщинах 28–40.
 
-## Палитра v2 (Direction B, «Прохладная бумага и мох»)
+## Палитра v4 (направление B «Тихий интерфейс», D-036)
 
-`ink #1B201B` · `paper #F1F1EA` (прохладная бумага, НЕ крем) · `moss #46543F` · `moss-deep #2F3A2C` ·
-`moss-soft #DDE2D6` · `wine #6C2A30` · `sage #A8B3A0` · `sand #E4E0D4` · `line #D5D2C6` ·
-`danger #A64B4B`.
+`bg/paper #FBFAF6` · `surface #FFFFFF` · `ink #15181A` · `muted #5A6266` · `line #E6E3DA` ·
+`accent/amber #B4703A` · `accent-strong #8A5327` (CTA, текст) · `accent-soft #F6EBDF` ·
+`sage-soft/moss-soft #EDF0EA` · `sand #EFEBE0` · `danger #A64B4B`. Радиусы: card 18, button 14,
+bubble 16; тени `soft`/`lift` — только у экрана продукта.
 
-Правила: `wine` — не больше ~8% площади, только сигнал/CTA (текст на нём — paper); `moss` —
-архитектура (поля, футер, dark-секции); никаких градиентов, glassmorphism, неона, розово-лиловых
-схем и «крем #F7F3EE + терракота #B4654A + сериф» по умолчанию (это AI-телль №1).
+Правила: первый экран показывает **продукт** (экран приложения), а не фото; `ink` — primary-кнопка,
+`accent-strong` — главный CTA; `accent-soft` — плашки; никаких градиентов, glassmorphism, неона,
+розово-лиловых схем и «крем + терракота + сериф» по умолчанию (это AI-телль №1). AI-стоковые фото
+не ставить в hero — только как фон секций, до арт-съёмки.
 
 ## Типографика
 

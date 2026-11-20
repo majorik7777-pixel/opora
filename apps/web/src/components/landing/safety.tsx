@@ -22,7 +22,7 @@ export function SafetySection() {
         <div className="lg:col-span-5">
           <h2
             id="safety-title"
-            className="text-[30px] leading-[1.05] tracking-[-0.03em] sm:text-[40px]"
+            className="text-[32px] leading-[1.06] tracking-[-0.03em] sm:text-[44px]"
           >
             Твои переживания — только твои.
           </h2>
@@ -44,13 +44,13 @@ export function SafetySection() {
           </div>
         </div>
 
-        <dl className="border-b border-ink/15 lg:col-span-7">
+        <dl className="divide-y divide-ink/10 border-y border-ink/10 lg:col-span-7">
           {passport.map((item) => (
             <div
               key={item.title}
-              className="grid gap-1 border-t border-ink/15 py-4 sm:grid-cols-12 sm:items-baseline sm:gap-6"
+              className="grid gap-1 py-4 sm:grid-cols-12 sm:items-baseline sm:gap-6"
             >
-              <dt className="text-base font-medium sm:col-span-4">{item.title}</dt>
+              <dt className="text-base font-semibold sm:col-span-4">{item.title}</dt>
               <dd className="text-sm leading-6 text-ink/75 sm:col-span-8">{item.text}</dd>
             </div>
           ))}

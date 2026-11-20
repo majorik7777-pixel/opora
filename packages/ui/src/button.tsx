@@ -5,17 +5,17 @@ export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "sign
 export type ButtonSize = "sm" | "md" | "lg";
 
 const variants: Record<ButtonVariant, string> = {
-  // Primary — глубокий мох: архитектура, не «акцентная кнопка».
+  // Primary — чернильная кнопка: единственное сильное действие на экране.
   primary:
-    "bg-accent-strong text-paper hover:brightness-[0.94] active:brightness-[0.88]",
-  // signal — вино, только для настоящего CTA (не больше одного на экран).
+    "bg-ink text-white shadow-soft hover:bg-ink/90 active:bg-ink",
+  // signal — янтарь: тёплый акцент для главного CTA, текст белый (5,3:1).
   signal:
-    "bg-wine text-paper hover:brightness-[0.94] active:brightness-[0.88]",
-  // paper — кнопка на тёмном поле (мох/вино): максимальный контраст.
+    "bg-accent-strong text-white shadow-soft hover:brightness-105 active:brightness-95",
+  // paper — кнопка на тёмном поле.
   paper:
-    "bg-paper text-ink hover:bg-moss-soft active:bg-line",
+    "bg-paper text-ink hover:bg-white active:bg-line",
   secondary:
-    "border border-line bg-surface text-ink hover:border-moss/50 hover:bg-moss-soft/40",
+    "border border-line bg-surface text-ink hover:border-ink/25 hover:bg-accent-soft/40",
   ghost: "text-ink hover:bg-line/40",
   danger: "bg-danger text-white hover:brightness-95 active:brightness-90",
 };

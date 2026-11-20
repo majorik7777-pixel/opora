@@ -9,7 +9,7 @@ export function FaqSection({ program }: { program: Program }) {
         <div className="lg:col-span-4">
           <h2
             id="faq-title"
-            className="text-[30px] leading-[1.05] tracking-[-0.03em] sm:text-[40px]"
+            className="text-[32px] leading-[1.06] tracking-[-0.03em] sm:text-[44px]"
           >
             Частые вопросы
           </h2>
@@ -20,17 +20,20 @@ export function FaqSection({ program }: { program: Program }) {
 
         <div className="lg:col-span-8">
           {program.faq.map((item) => (
-            <details key={item.question} className="group border-t border-line py-4 last:border-b">
-              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-lg font-medium [&::-webkit-details-marker]:hidden">
+            <details
+              key={item.question}
+              className="group border-t border-line py-4 last:border-b"
+            >
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold [&::-webkit-details-marker]:hidden">
                 {item.question}
                 <span
                   aria-hidden="true"
-                  className="text-2xl font-normal leading-none text-wine transition-transform group-open:rotate-45"
+                  className="text-2xl font-normal leading-none text-accent-strong transition-transform group-open:rotate-45"
                 >
                   +
                 </span>
               </summary>
-              <p className="mt-2 max-w-2xl text-base leading-7 text-ink/75">{item.answer}</p>
+              <p className="mt-2 max-w-2xl text-base leading-7 text-muted">{item.answer}</p>
             </details>
           ))}
         </div>

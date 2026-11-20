@@ -61,33 +61,33 @@
 }
 
 /*
- * Дизайн-токены v2 «Прохладная бумага и мох» (docs/design/direction-v2.md).
- * Бумага прохладная, не кремовая; голос — гротеск Onest; Literata — только
- * «события» (цитаты, уроки, письма). Контрасты проверены: ink/paper 14.6,
- * muted/paper 5.4, wine/paper 9.2, paper/moss 7.1.
+ * Дизайн-токены v4 «Тихий интерфейс» (20.11.2026): тёплый белый, чернильный
+ * текст, янтарный акцент, крупные скругления и мягкие тени. Продукт — первый
+ * герой страницы. Контрасты: ink/bg 16,3; muted/bg 6,3; white/accent-strong 5,3.
  */
 @theme {
-  --color-bg: #f1f1ea;
-  --color-paper: #f1f1ea;
-  --color-surface: #fafaf6;
-  --color-ink: #1b201b;
-  --color-muted: #5c6458;
-  --color-line: #d5d2c6;
-  --color-sand: #e4e0d4;
-  /* Тёплая «бумага для чтения» — только длинные тексты (дневник/урок/отчёт),
-     не для лендинга: ink 13,4:1, wine 8,5:1, muted 5,0:1 (см. russian-adaptation.md). */
-  --color-paper-read: #ede7db;
-  --color-accent: #46543f;
-  --color-accent-strong: #2f3a2c;
-  --color-accent-deep: #6c2a30;
-  --color-accent-soft: #dde2d6;
-  --color-moss: #46543f;
-  --color-moss-deep: #2f3a2c;
-  --color-moss-soft: #dde2d6;
-  --color-wine: #6c2a30;
-  --color-sage: #a8b3a0;
-  --color-sage-soft: #dde2d6;
-  --color-sage-deep: #3c4a36;
+  --color-bg: #fbfaf6;
+  --color-paper: #fbfaf6;
+  --color-surface: #ffffff;
+  --color-ink: #15181a;
+  --color-muted: #5a6266;
+  --color-line: #e6e3da;
+  --color-sand: #efebe0;
+  /* Тёплая «бумага для чтения» — только длинные тексты (дневник/урок/отчёт). */
+  --color-paper-read: #f7f2e7;
+  --color-accent: #b4703a;
+  --color-accent-strong: #8a5327;
+  --color-accent-deep: #7a4a22;
+  --color-accent-soft: #f6ebdf;
+  --color-amber: #b4703a;
+  --color-amber-soft: #f6ebdf;
+  --color-moss: #3e4a3d;
+  --color-moss-deep: #2c362b;
+  --color-moss-soft: #edf0ea;
+  --color-wine: #8a3f2e;
+  --color-sage: #a9b3a3;
+  --color-sage-soft: #edf0ea;
+  --color-sage-deep: #3e4a3d;
   --color-success: #4f6b4f;
   --color-warning: #b07a2e;
   --color-danger: #a64b4b;
@@ -95,13 +95,13 @@
   --font-sans: "Onest", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --font-display: "Literata", Georgia, "Times New Roman", serif;
 
-  --radius-card: 4px;
-  --radius-button: 10px;
-  --radius-field: 6px;
-  --radius-bubble: 14px;
+  --radius-card: 18px;
+  --radius-button: 14px;
+  --radius-field: 12px;
+  --radius-bubble: 16px;
 
-  --shadow-soft: 0 1px 0 rgba(27, 32, 27, 0.05);
-  --shadow-lift: 0 12px 32px rgba(27, 32, 27, 0.08);
+  --shadow-soft: 0 1px 2px rgba(21, 24, 26, 0.06);
+  --shadow-lift: 0 30px 70px -40px rgba(21, 24, 26, 0.45), 0 2px 6px rgba(21, 24, 26, 0.06);
 }
 
 @layer base {
@@ -127,8 +127,8 @@
   h1,
   h2,
   h3 {
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
     text-wrap: balance;
   }
 
@@ -137,12 +137,12 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-moss);
+    outline: 2px solid var(--color-ink);
     outline-offset: 2px;
   }
 
   ::selection {
-    background-color: var(--color-moss-soft);
+    background-color: var(--color-accent-soft);
     color: var(--color-ink);
   }
 

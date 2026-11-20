@@ -9,7 +9,6 @@ import { InsideSection } from "@/components/landing/inside";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { PainSection } from "@/components/landing/pain-section";
 import { PricingSection } from "@/components/landing/pricing";
-import { ProductDemo } from "@/components/landing/product-demo";
 import { SafetySection } from "@/components/landing/safety";
 import { SevenDaysSection } from "@/components/landing/seven-days";
 import { StickyCta } from "@/components/landing/sticky-cta";
@@ -91,7 +90,6 @@ export default function LandingPage() {
       <main id="main" className="flex-1">
         <Hero program={rasstavanie} />
         <PainSection program={rasstavanie} />
-        <ProductDemo program={rasstavanie} />
         <SevenDaysSection program={rasstavanie} />
         <InsideSection program={rasstavanie} />
         <SafetySection />

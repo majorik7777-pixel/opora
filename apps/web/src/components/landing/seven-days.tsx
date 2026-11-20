@@ -6,48 +6,52 @@ import { Photo } from "./photo";
 
 export function SevenDaysSection({ program }: { program: Program }) {
   return (
-    <section id="how" aria-labelledby="how-title" className="bg-moss text-paper">
-      <Container className="grid gap-0 py-0 lg:grid-cols-12">
-        <div className="py-14 sm:py-16 lg:col-span-6 lg:py-20">
+    <section id="how" aria-labelledby="how-title" className="bg-surface">
+      <Container className="grid gap-0 lg:grid-cols-12">
+        <div className="py-14 sm:py-16 lg:col-span-6 lg:py-20 lg:pr-10">
           <h2
             id="how-title"
-            className="text-[30px] leading-[1.05] tracking-[-0.03em] sm:text-[40px]"
+            className="text-[32px] leading-[1.06] tracking-[-0.03em] sm:text-[44px]"
           >
             Не «забудь его». Вернуть себя.
           </h2>
-          <p className="mt-5 max-w-md text-lg leading-8 text-moss-soft">
+          <p className="mt-5 max-w-md text-lg leading-8 text-muted">
             Семь дней — это не марафон. Один урок и одна практика в день, чтобы
             снова почувствовать почву под ногами.
           </p>
 
-          <ol className="mt-9 flex flex-wrap gap-2" aria-label="Семь дней программы">
+          <ol className="mt-8 flex flex-wrap gap-2" aria-label="Семь дней программы">
             {program.dayTitles.map((title, index) => (
-              <li key={title} className="group relative">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/30 text-sm tabular-nums text-moss-soft">
+              <li key={title}>
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent-soft text-sm font-semibold tabular-nums text-accent-strong">
                   {index + 1}
                 </span>
                 <span className="sr-only">{title}</span>
               </li>
             ))}
           </ol>
-          <p className="mt-3 text-sm text-moss-soft">
+          <p className="mt-4 text-sm text-muted">
             7 дней · урок → практика → дневник → поддержка
           </p>
 
-          <ol className="mt-8 border-b border-paper/20">
+          <ol className="mt-9 divide-y divide-line border-y border-line">
             {program.sevenDays.map((step) => (
               <li
                 key={step.period}
-                className="grid gap-2 border-t border-paper/20 py-5 sm:grid-cols-12 sm:gap-5"
+                className="grid gap-2 py-5 sm:grid-cols-12 sm:gap-5"
               >
-                <p className="event-serif text-3xl leading-none text-moss-soft sm:col-span-2">
+                <p className="event-serif text-3xl leading-none text-accent-strong sm:col-span-2">
                   {step.period}
                 </p>
-                <div className="sm:col-span-3">
-                  <p className="text-sm text-moss-soft">{step.days}</p>
-                  <h3 className="mt-1 text-lg font-medium leading-snug">{step.title}</h3>
+                <div className="sm:col-span-4">
+                  <p className="text-xs uppercase tracking-[0.12em] text-muted">
+                    {step.days}
+                  </p>
+                  <h3 className="mt-1.5 text-lg font-semibold leading-snug">
+                    {step.title}
+                  </h3>
                 </div>
-                <p className="text-sm leading-6 text-moss-soft sm:col-span-7">
+                <p className="text-sm leading-6 text-muted sm:col-span-6">
                   {step.text}
                 </p>
               </li>

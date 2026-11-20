@@ -20,15 +20,17 @@ export function FinalCta() {
           />
         </div>
 
-        <div className="flex flex-col justify-center rounded-card border border-line bg-surface p-6 sm:p-8 lg:col-span-6">
-          <p className="text-sm text-muted">Первый шаг — бесплатно</p>
+        <div className="flex flex-col justify-center rounded-card bg-surface p-6 shadow-soft sm:p-8 lg:col-span-6">
+          <p className="inline-flex w-fit items-center rounded-full bg-accent-soft px-3 py-1 text-[13px] font-medium text-accent-strong">
+            Первый шаг — бесплатно
+          </p>
           <h2
             id="final-title"
-            className="mt-2 text-[28px] leading-[1.08] tracking-[-0.03em] sm:text-[36px]"
+            className="mt-4 text-[28px] leading-[1.08] tracking-[-0.03em] sm:text-[38px]"
           >
             Начни сегодня. Десять минут — и станет чуть легче.
           </h2>
-          <p className="mt-3 max-w-md text-base leading-7 text-ink/75">
+          <p className="mt-3 max-w-md text-base leading-7 text-muted">
             Первый день программы бесплатно: посмотришь, как всё устроено, и
             поймёшь, подходит ли тебе формат. Без карты и обязательств.
           </p>
@@ -37,7 +39,7 @@ export function FinalCta() {
               href={ROUTES.onboarding}
               className={buttonStyles({ variant: "signal", size: "lg" })}
             >
-              Пройти первый день бесплатно
+              Начать первый день
             </Link>
           </div>
           <p className="mt-3 text-sm text-muted">Анонимно · без подписки · 18+</p>
