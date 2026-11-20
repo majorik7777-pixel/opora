@@ -1,4 +1,5 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { chooseOption, loginAsNewUser } from "./helpers";
 
 /**
  * T-101: чат — стриминг ответа, дневной лимит, мобильный 360.
@@ -6,41 +7,6 @@ import { expect, test, type Page } from "@playwright/test";
  */
 
 const FAKE_REPLY_FRAGMENT = /ты не обязана быть сильной/i;
-
-async function chooseOption(page: Page, label: string): Promise<void> {
-  await page.locator("label").filter({ hasText: label }).first().click();
-}
-
-/** Проходит онбординг и входит по dev-magic-link, возвращая email. */
-async function loginAsNewUser(page: Page): Promise<void> {
-  const email = `chat-e2e-${Date.now()}-${Math.floor(Math.random() * 1e6)}@example.com`;
-
-  await page.goto("/onboarding");
-  await chooseOption(page, "Расстались");
-  await page.getByRole("button", { name: "Дальше" }).click();
-  await chooseOption(page, "1–4 недели");
-  await page.getByRole("button", { name: "Дальше" }).click();
-  await chooseOption(page, "Не могу отпустить");
-  await page.getByRole("button", { name: "Дальше" }).click();
-  await chooseOption(page, "Перестать постоянно думать об этом");
-  await page.getByRole("button", { name: "Дальше" }).click();
-  await chooseOption(page, "Засыпаю с трудом");
-  await page.getByRole("button", { name: "Дальше" }).click();
-
-  await chooseOption(page, "Мне 18+");
-  await chooseOption(page, "Согласна с обработкой данных");
-  await chooseOption(page, "рассказываю о своём состоянии");
-  await page.getByRole("button", { name: "Начать" }).click();
-
-  await page.getByLabel("Почта").fill(email);
-  await page.getByRole("button", { name: "Получить ссылку для входа" }).click();
-  const devLink = page.getByRole("link", { name: "Открыть ссылку для входа" });
-  await expect(devLink).toBeVisible();
-  const href = await devLink.getAttribute("href");
-  await page.goto(href ?? "/");
-  await expect(page).toHaveURL(/\/welcome$/);
-  await page.goto("/app");
-}
 
 test.describe("Чат T-101", () => {
   test("отправляет сообщение, показывает потоковый ответ и остаток лимита", async ({

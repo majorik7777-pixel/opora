@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { chooseOption } from "./helpers";
 
 /**
  * Сквозной путь Phase 0–1:
@@ -7,10 +8,6 @@ import { expect, test, type Page } from "@playwright/test";
  */
 test.describe("Сквозной путь", () => {
   const email = `e2e-${Date.now()}@example.com`;
-
-  async function chooseOption(page: Page, label: string): Promise<void> {
-    await page.locator("label").filter({ hasText: label }).first().click();
-  }
 
   test("гость проходит онбординг, входит по magic link и попадает в /app", async ({
     page,

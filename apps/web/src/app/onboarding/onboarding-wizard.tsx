@@ -45,6 +45,13 @@ export function OnboardingWizard({
     : Math.round(((stepIndex + 1) / (ONBOARDING_STEPS.length + 1)) * 100);
 
   useEffect(() => {
+    // Маркер готовности к интерактиву: до гидрации клик по варианту может
+    // потеряться (нативный input переключится, React-состояние — нет).
+    // E2E ждут html[data-hydrated="true"] перед кликами.
+    document.documentElement.dataset.hydrated = "true";
+  }, []);
+
+  useEffect(() => {
     headingRef.current?.focus();
   }, [stepIndex]);
 
@@ -54,7 +61,27 @@ export function OnboardingWizard({
   }
 
   function goNext(): void {
-    if (!step || !currentValue) return;
+    if (!step) return;
+
+    // Страховка от потерянного первого тапа (клик до гидрации): нативный input
+    // уже переключён, а React-состояние — ещё нет. Берём значение из DOM.
+    let value = currentValue;
+    if (!value) {
+      const checked = document.querySelector<HTMLInputElement>(
+        `input[name="${step.id}"]:checked`,
+      );
+      if (checked?.value) {
+        value = checked.value;
+        selectAnswer(step.id, value);
+      }
+    }
+
+    if (!value) {
+      setError("Выбери, пожалуйста, один из вариантов.");
+      return;
+    }
+
+    setError(null);
     setStepIndex((index) => Math.min(index + 1, CONSENT_STEP_INDEX));
   }
 
@@ -121,13 +148,14 @@ export function OnboardingWizard({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <div className="flex items-center justify-between gap-3 text-sm text-muted">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-sm text-muted">
+          {/* Одна строка, а не два span'а: иначе скринридер и innerText склеивают
+              «из 5» + «2 минуты» в «из 52 минуты». */}
           <span>
             {isConsentStep
-              ? "Последний шаг"
-              : `Вопрос ${stepIndex + 1} из ${ONBOARDING_STEPS.length}`}
+              ? "Последний шаг · 2 минуты"
+              : `Вопрос ${stepIndex + 1} из ${ONBOARDING_STEPS.length} · 2 минуты`}
           </span>
-          <span>2 минуты</span>
         </div>
         <ProgressBar
           value={progress}
@@ -272,7 +300,7 @@ export function OnboardingWizard({
               size="lg"
               fullWidth
               onClick={goNext}
-              disabled={!currentValue}
+              disabled={isPending}
             >
               Дальше
             </Button>

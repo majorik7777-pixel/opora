@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { waitForHydration } from "./helpers";
 
 const MOBILE = { width: 360, height: 800 };
 
@@ -28,6 +29,7 @@ test.describe("Мобильный 360px", () => {
   }) => {
     await page.setViewportSize(MOBILE);
     await page.goto("/onboarding");
+    await waitForHydration(page);
 
     const option = page.locator("label").filter({ hasText: "Расстались" }).first();
     await expect(option).toBeVisible();
