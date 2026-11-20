@@ -9,6 +9,11 @@ const legalLinks = [
   { href: ROUTES.legal.offer, label: "Оферта" },
 ] as const;
 
+const contentLinks = [
+  { href: "/articles", label: "Статьи" },
+  { href: "/programs", label: "Программы" },
+] as const;
+
 /** Подвал для лендинга и юридических страниц. */
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -25,6 +30,18 @@ export function SiteFooter() {
             </p>
             <p className="text-sm text-muted">18+ · Сделано с заботой о приватности.</p>
           </div>
+
+          <nav aria-label="Статьи и программы" className="grid gap-1">
+            {contentLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="inline-flex min-h-11 items-center text-sm text-ink underline-offset-2 hover:underline"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
           <nav aria-label="Правовая информация" className="grid gap-1">
             {legalLinks.map((link) => (
