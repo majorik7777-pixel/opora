@@ -77,6 +77,32 @@ export const MIGRATIONS: readonly Migration[] = [
       `CREATE INDEX IF NOT EXISTS "onboarding_answers_user_id_idx" ON "onboarding_answers" ("user_id")`,
     ],
   },
+  {
+    id: "0001_chat",
+    statements: [
+      `CREATE TABLE IF NOT EXISTS "chat_threads" (
+        "id" uuid PRIMARY KEY NOT NULL,
+        "user_id" uuid NOT NULL UNIQUE REFERENCES "users" ("id") ON DELETE CASCADE,
+        "created_at" timestamptz DEFAULT now() NOT NULL,
+        "updated_at" timestamptz DEFAULT now() NOT NULL
+      )`,
+      `CREATE INDEX IF NOT EXISTS "chat_threads_user_id_idx" ON "chat_threads" ("user_id")`,
+      `CREATE TABLE IF NOT EXISTS "chat_messages" (
+        "id" uuid PRIMARY KEY NOT NULL,
+        "thread_id" uuid NOT NULL REFERENCES "chat_threads" ("id") ON DELETE CASCADE,
+        "user_id" uuid NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE,
+        "role" text NOT NULL,
+        "content_enc" text NOT NULL,
+        "safety_flag" text,
+        "provider" text,
+        "model" text,
+        "tokens" integer,
+        "created_at" timestamptz DEFAULT now() NOT NULL
+      )`,
+      `CREATE INDEX IF NOT EXISTS "chat_messages_thread_created_idx" ON "chat_messages" ("thread_id", "created_at")`,
+      `CREATE INDEX IF NOT EXISTS "chat_messages_user_created_idx" ON "chat_messages" ("user_id", "created_at")`,
+    ],
+  },
 ];
 
 const MIGRATIONS_TABLE = `CREATE TABLE IF NOT EXISTS "_opora_migrations" (

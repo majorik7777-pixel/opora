@@ -121,6 +121,9 @@ importers:
       '@opora/db':
         specifier: workspace:*
         version: link:../db
+      '@opora/llm':
+        specifier: workspace:*
+        version: link:../llm
       '@opora/shared':
         specifier: workspace:*
         version: link:../shared

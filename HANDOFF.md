@@ -30,6 +30,24 @@
 - **08:40** чанк 0: чекпойнт создан. Сверено состояние: `git log -1` = `0e8ca70` (дизайн v4 в `main`,
   задеплоен на тест), незакоммиченным был только раздел про чекпойнты в `AGENTS.md` — код T-101
   не начинался, дублей работы нет.
+- **08:52** чанк 1 готов: контракт `packages/shared/src/chat.ts` (роли, лимиты, `chatSendSchema`,
+  `chatDayKey`/`chatDayStart` для Europe/Moscow, события SSE), схема `chat_threads`/`chat_messages`,
+  миграция `0001_chat`, репозиторий `packages/db/src/repositories/chat.ts`. Проверка:
+  `pnpm --filter @opora/{shared,db} exec tsc --noEmit` → TYPES_OK.
+- **09:10** чанк 2 готов: `packages/core/src/chat.ts` — лимит 5/день по БД, safety-хук до генерации
+  (пока `moderateText`), контекст «промпт + онбординг + 8 сообщений» с бюджетом 10 000 символов,
+  шифрование `sealText`, стриминг через `AsyncIterable`. Тесты `chat.test.ts` (6): лимит по дням,
+  RATE_LIMITED, шифрование, кризис без генерации, онбординг в контексте. Проверка:
+  `pnpm --filter @opora/core exec vitest run` → **14 passed**.
+- **09:35** чанк 3 готов: `POST /api/chat` (SSE, `X-Accel-Buffering: no`, 401/400/429),
+  клиент `apps/web/src/components/chat/chat-panel.tsx` (стриминг, «Осталось N из 5», быстрые
+  действия, кризисный блок с телефонами, ошибка с повтором), страница `/app/chat` на v4.
+  `pnpm typecheck` + `pnpm lint` + `pnpm build` (BUILD_ID на месте) — зелёные.
+- **09:50** баг e2e и фикс: ответ приходил потоком, но в историю попадал пустым. Причина — `setMessages`
+  с updater-функцией вычислял `answer.trim()` позже, когда `answer` уже сброшен в `""`. Фикс: считать
+  `finalText` до вызова `setMessages`. Второй урок: `pnpm exec playwright test` без сборки подхватывает
+  старый `.next` — перед e2e всегда `rm -rf apps/web/.next && pnpm build` (или `pnpm test:e2e`).
+
 
 ## 1. Что уже сделано
 

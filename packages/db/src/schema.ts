@@ -1,4 +1,4 @@
-import { boolean, index, pgTable, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { boolean, index, integer, pgTable, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 
 /**
  * Схема БД Phase 0–1 (12-tech-plan.md §4, уточнения в ADR-0002/0003).
@@ -101,10 +101,55 @@ export const onboardingAnswers = pgTable(
   (table) => [index("onboarding_answers_user_id_idx").on(table.userId)],
 );
 
+/**
+ * Чат (T-101). Один тред на пользователя в Phase 1; текст сообщений хранится
+ * только в зашифрованном виде (content_enc, AES-256-GCM), см. ADR-0003.
+ */
+export const chatThreads = pgTable(
+  "chat_threads",
+  {
+    id: uuid("id").primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .unique()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index("chat_threads_user_id_idx").on(table.userId)],
+);
+
+export const chatMessages = pgTable(
+  "chat_messages",
+  {
+    id: uuid("id").primaryKey(),
+    threadId: uuid("thread_id")
+      .notNull()
+      .references(() => chatThreads.id, { onDelete: "cascade" }),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    role: text("role").notNull(),
+    contentEnc: text("content_enc").notNull(),
+    /** "ok" | "risk" — результат safety-хука до генерации (T-105 расширит). */
+    safetyFlag: text("safety_flag"),
+    provider: text("provider"),
+    model: text("model"),
+    tokens: integer("tokens"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("chat_messages_thread_created_idx").on(table.threadId, table.createdAt),
+    index("chat_messages_user_created_idx").on(table.userId, table.createdAt),
+  ],
+);
+
 export const schema = {
   users,
   authTokens,
   sessionsAuth,
   consents,
   onboardingAnswers,
+  chatThreads,
+  chatMessages,
 };

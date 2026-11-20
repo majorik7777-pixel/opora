@@ -21,6 +21,8 @@ export async function countRows(
     | "sessions_auth"
     | "consents"
     | "onboarding_answers"
+    | "chat_threads"
+    | "chat_messages"
     | "_opora_migrations",
 ): Promise<number> {
   const result = await handle.db.execute(
