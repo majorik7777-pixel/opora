@@ -102,8 +102,40 @@ export const onboardingAnswers = pgTable(
 );
 
 /**
+ * Каталог программ (D-035): одна платформа — много программ. Программа — это
+ * контент и запись в каталоге, а не отдельный продукт. Даже когда программа
+ * одна, строка в каталоге существует: на неё ссылаются доступы, тред чата,
+ * дневник и SEO-страницы (`docs/product/scalability.md`).
+ */
+export const programs = pgTable(
+  "programs",
+  {
+    id: uuid("id").primaryKey(),
+    slug: text("slug").notNull(),
+    title: text("title").notNull(),
+    /** Короткое описание для каталога и карточки. */
+    summary: text("summary").notNull().default(""),
+    /** draft | published | archived — что показывать в каталоге и sitemap. */
+    status: text("status").notNull().default("draft"),
+    /** Цена в рублях; 0 — бесплатно. */
+    priceRub: integer("price_rub").notNull().default(0),
+    /** Версия контента программы: позволяет обновлять тексты без сброса прогресса. */
+    contentVersion: text("content_version").notNull().default("v1"),
+    sortOrder: integer("sort_order").notNull().default(0),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("programs_slug_uq").on(table.slug),
+    index("programs_status_idx").on(table.status),
+  ],
+);
+
+/**
  * Чат (T-101). Один тред на пользователя в Phase 1; текст сообщений хранится
  * только в зашифрованном виде (content_enc, AES-256-GCM), см. ADR-0003.
+ * `program_slug` — контекст разговора (nullable): программа не создаёт второй
+ * тред, она задаёт фокус (`docs/product/scalability.md` §3).
  */
 export const chatThreads = pgTable(
   "chat_threads",
@@ -113,6 +145,7 @@ export const chatThreads = pgTable(
       .notNull()
       .unique()
       .references(() => users.id, { onDelete: "cascade" }),
+    programSlug: text("program_slug"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -174,6 +207,7 @@ export const schema = {
   sessionsAuth,
   consents,
   onboardingAnswers,
+  programs,
   chatThreads,
   chatMessages,
   entitlements,

@@ -24,6 +24,7 @@ export async function countRows(
     | "chat_threads"
     | "chat_messages"
     | "entitlements"
+    | "programs"
     | "_opora_migrations",
 ): Promise<number> {
   const result = await handle.db.execute(

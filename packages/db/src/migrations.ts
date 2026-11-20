@@ -119,6 +119,39 @@ export const MIGRATIONS: readonly Migration[] = [
       `CREATE INDEX IF NOT EXISTS "entitlements_user_idx" ON "entitlements" ("user_id")`,
     ],
   },
+  {
+    id: "0003_programs",
+    statements: [
+      `CREATE TABLE IF NOT EXISTS "programs" (
+        "id" uuid PRIMARY KEY NOT NULL,
+        "slug" text NOT NULL,
+        "title" text NOT NULL,
+        "summary" text DEFAULT '' NOT NULL,
+        "status" text DEFAULT 'draft' NOT NULL,
+        "price_rub" integer DEFAULT 0 NOT NULL,
+        "content_version" text DEFAULT 'v1' NOT NULL,
+        "sort_order" integer DEFAULT 0 NOT NULL,
+        "created_at" timestamptz DEFAULT now() NOT NULL,
+        "updated_at" timestamptz DEFAULT now() NOT NULL
+      )`,
+      `CREATE UNIQUE INDEX IF NOT EXISTS "programs_slug_uq" ON "programs" ("slug")`,
+      `CREATE INDEX IF NOT EXISTS "programs_status_idx" ON "programs" ("status")`,
+      // Первая программа каталога: id фиксирован, чтобы повторный прогон не плодил строки.
+      `INSERT INTO "programs" ("id", "slug", "title", "summary", "status", "price_rub", "content_version", "sort_order")
+        VALUES (
+          '0192f7a0-0000-7000-8000-000000000001',
+          'rasstavanie',
+          'После расставания: 7 дней, чтобы вернуть опору',
+          'Дневник, поддержка и маленькие шаги. Без осуждения. Анонимно.',
+          'published',
+          990,
+          'v1',
+          10
+        )
+        ON CONFLICT ("slug") DO NOTHING`,
+      `ALTER TABLE "chat_threads" ADD COLUMN IF NOT EXISTS "program_slug" text`,
+    ],
+  },
 ];
 
 const MIGRATIONS_TABLE = `CREATE TABLE IF NOT EXISTS "_opora_migrations" (

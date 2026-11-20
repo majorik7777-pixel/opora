@@ -1,5 +1,6 @@
 export * from "./auth";
 export * from "./billing";
+export * from "./catalog";
 export * from "./chat";
 export * from "./health";
 export * from "./mailer";

@@ -8,7 +8,9 @@ import {
   createSession,
 } from "../repositories/auth";
 import { findOnboardingAnswers, saveOnboardingBundle } from "../repositories/onboarding";
+import { findProgramBySlug, listPrograms, upsertProgram } from "../repositories/programs";
 import { uuidv7 } from "@opora/shared/server";
+import { chatThreads } from "../schema";
 
 describe("БД: миграции и репозитории", () => {
   it("миграции применяются идемпотентно", async () => {
@@ -130,6 +132,72 @@ describe("БД: миграции и репозитории", () => {
       });
       const session = await findSessionUser(handle.db, tokenHash);
       expect(session?.user.id).toBe(user.id);
+    } finally {
+      await handle.close();
+    }
+  });
+
+  it("каталог программ: миграция сеет первую программу, upsert идемпотентен", async () => {
+    const handle = await createTestDatabase();
+    try {
+      // Миграция 0003 кладёт строку «расставание» — на неё уже ссылаются
+      // entitlements и страницы лендинга, поэтому она должна существовать.
+      const seeded = await findProgramBySlug(handle.db, "rasstavanie");
+      expect(seeded?.status).toBe("published");
+      expect(seeded?.priceRub).toBe(990);
+      expect(seeded?.contentVersion).toBe("v1");
+
+      const published = await listPrograms(handle.db, { onlyPublished: true });
+      expect(published.map((row) => row.slug)).toEqual(["rasstavanie"]);
+
+      // Повторный upsert не создаёт вторую строку, но обновляет поля.
+      await upsertProgram(handle.db, {
+        id: uuidv7(),
+        slug: "rasstavanie",
+        title: "После расставания: 7 дней",
+        summary: "Обновлённое описание",
+        status: "published",
+        priceRub: 990,
+        contentVersion: "v2",
+        sortOrder: 10,
+      });
+      expect(await countRows(handle, "programs")).toBe(1);
+      const updated = await findProgramBySlug(handle.db, "rasstavanie");
+      expect(updated?.contentVersion).toBe("v2");
+      expect(updated?.title).toBe("После расставания: 7 дней");
+
+      // Черновик не попадает в публичный список.
+      await upsertProgram(handle.db, {
+        id: uuidv7(),
+        slug: "trevoga",
+        title: "Тревога",
+        status: "draft",
+      });
+      const onlyPublished = await listPrograms(handle.db, { onlyPublished: true });
+      expect(onlyPublished.map((row) => row.slug)).toEqual(["rasstavanie"]);
+      expect((await listPrograms(handle.db)).length).toBe(2);
+    } finally {
+      await handle.close();
+    }
+  });
+
+  it("тред чата хранит программу как контекст, не создавая второй тред", async () => {
+    const handle = await createTestDatabase();
+    try {
+      const user = await findOrCreateUser(handle.db, {
+        id: uuidv7(),
+        emailEnc: "enc",
+        emailHmac: "hmac-chat-program",
+      });
+      const threadId = uuidv7();
+      await handle.db.insert(chatThreads).values({
+        id: threadId,
+        userId: user.id,
+        programSlug: "rasstavanie",
+      });
+      const rows = await handle.db.select().from(chatThreads);
+      expect(rows).toHaveLength(1);
+      expect(rows[0]?.programSlug).toBe("rasstavanie");
     } finally {
       await handle.close();
     }
