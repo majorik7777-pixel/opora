@@ -54,11 +54,16 @@ export async function requestMagicLink(
     );
   }
 
+  const magicLinkRule = {
+    limit: getEnv().magicLinkRateLimit ?? RATE_LIMITS.magicLinkPerIp.limit,
+    windowMs: RATE_LIMITS.magicLinkPerIp.windowMs,
+  };
+
   if (
     input.ipHash &&
     !consumeRateLimit(
       `magic-link:${input.ipHash}`,
-      RATE_LIMITS.magicLinkPerIp,
+      magicLinkRule,
       (input.now ?? new Date()).getTime(),
     )
   ) {

@@ -129,7 +129,7 @@
 | [`T-004.md`](T-004.md) | review | Magic-link auth и сессии |
 | [`T-005.md`](T-005.md) | review | `/app` после онбординга |
 | [`T-006.md`](T-006.md) | review | Playwright, CI, a11y и мобильный 360 |
-| [`T-101.md`](T-101.md) | planned | Чат: LLM-адаптер, SSE, лимит, память, safety-хук |
+| [`T-101.md`](T-101.md) | review | Чат: LLM-адаптер, SSE, лимит, память, safety-хук |
 | [`T-102.md`](T-102.md) | planned | Дневник: текст, настроение, теги, шифрование, AI-разбор |
 | [`T-103.md`](T-103.md) | planned | Программа 7 дней: контент, enrollment, прогресс, отчёт |
 | [`T-104.md`](T-104.md) | planned | Оплата: ЮKassa, paywall, entitlement, вебхук, чеки |

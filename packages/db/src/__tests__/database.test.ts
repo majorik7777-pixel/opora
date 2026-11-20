@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { MIGRATIONS } from "../migrations";
 import { countRows, createTestDatabase } from "../testing";
 import {
   findOrCreateUser,
@@ -13,10 +14,13 @@ describe("БД: миграции и репозитории", () => {
   it("миграции применяются идемпотентно", async () => {
     const handle = await createTestDatabase();
     try {
-      expect(await countRows(handle, "_opora_migrations")).toBe(1);
+      // Число применённых миграций должно совпадать с их списком и не расти
+      // при повторном прогоне (идемпотентность).
+      const total = MIGRATIONS.length;
+      expect(await countRows(handle, "_opora_migrations")).toBe(total);
       const { runMigrations } = await import("../migrations");
       await runMigrations(handle.db);
-      expect(await countRows(handle, "_opora_migrations")).toBe(1);
+      expect(await countRows(handle, "_opora_migrations")).toBe(total);
       expect(await countRows(handle, "users")).toBe(0);
     } finally {
       await handle.close();

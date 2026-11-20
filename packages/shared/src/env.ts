@@ -12,6 +12,8 @@ const envSchema = z.object({
   PGLITE_DATA_DIR: z.string().default(".data/dev"),
 
   AUTO_MIGRATE: z.string().optional(),
+  /** Переопределение лимита magic-link с одного IP за минуту (e2e и нагрузочные тесты). */
+  MAGIC_LINK_RATE_LIMIT: z.coerce.number().int().positive().optional(),
   AUTH_DEV_SHOW_LINK: z.string().optional(),
 
   EMAIL_TRANSPORT: z.enum(["console", "smtp"]).default("console"),
@@ -57,6 +59,8 @@ export interface AppEnv {
   autoMigrate: boolean;
   /** Показывать dev-ссылку magic link прямо в интерфейсе (только не в production). */
   showDevMagicLink: boolean;
+  /** Лимит запросов magic-link с одного IP в минуту (по умолчанию 5). */
+  magicLinkRateLimit: number | undefined;
 }
 
 /**
@@ -94,5 +98,6 @@ export function getEnv(): AppEnv {
     showDevMagicLink:
       data.AUTH_DEV_SHOW_LINK === "true" ||
       (!isProduction && data.AUTH_DEV_SHOW_LINK !== "false"),
+    magicLinkRateLimit: data.MAGIC_LINK_RATE_LIMIT,
   };
 }

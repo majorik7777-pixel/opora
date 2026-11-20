@@ -80,7 +80,11 @@ test.describe("Чат T-101", () => {
     }
 
     await expect(page.getByLabel("Сообщение")).toBeDisabled();
-    await expect(page.getByText(/На сегодня лимит закончился/i)).toBeVisible();
+    await expect(page.getByLabel("Сообщение")).toHaveAttribute(
+      "placeholder",
+      /лимит закончился/i,
+    );
+    await expect(page.getByRole("button", { name: "Отправить" })).toBeDisabled();
   });
 
   test("кризисное сообщение показывает контакты помощи", async ({ page }) => {

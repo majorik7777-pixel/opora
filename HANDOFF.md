@@ -47,6 +47,15 @@
   с updater-функцией вычислял `answer.trim()` позже, когда `answer` уже сброшен в `""`. Фикс: считать
   `finalText` до вызова `setMessages`. Второй урок: `pnpm exec playwright test` без сборки подхватывает
   старый `.next` — перед e2e всегда `rm -rf apps/web/.next && pnpm build` (или `pnpm test:e2e`).
+- **10:20** чанк 4: e2e `tests/e2e/chat.spec.ts` (4 сценария × desktop/mobile = 8). Две причины падений,
+  обе не в продукте: (а) каждый тест логинится заново, а лимит magic-link — 5 запросов/мин с IP, поэтому
+  с 6-го логина «Слишком много попыток» → добавил `MAGIC_LINK_RATE_LIMIT` в env (по умолчанию 5, в e2e — 100);
+  (б) проверка «лимит закончился» искала текст, который на самом деле placeholder → проверяем `placeholder`
+  и `disabled`. Итог: `CI=1 pnpm exec playwright test tests/e2e/chat.spec.ts` → **8 passed**.
+- **10:30** чанк 5: `pnpm test` после миграции падал на `expect(_opora_migrations).toBe(1)` — тест был
+  привязан к числу миграций. Заменил на `MIGRATIONS.length`. Итог: unit/integration **36 passed**
+  (llm 8, shared 11, db 3, core 14).
+
 
 
 ## 1. Что уже сделано

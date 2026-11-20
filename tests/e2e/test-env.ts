@@ -15,6 +15,9 @@ export const E2E_ENV = {
   AUTH_DEV_SHOW_LINK: "true",
   EMAIL_TRANSPORT: "console",
   LLM_PROVIDER: "fake",
+  // e2e логинится в каждом тесте: лимит magic-link с одного IP поднимаем, иначе
+  // 6-й+ тест в минуту получает «Слишком много попыток».
+  MAGIC_LINK_RATE_LIMIT: "100",
   AUTH_SECRET: "e2e-auth-secret-not-for-production-0001",
   ENCRYPTION_KEY: Buffer.alloc(32, 7).toString("base64"),
   NEXT_TELEMETRY_DISABLED: "1",
